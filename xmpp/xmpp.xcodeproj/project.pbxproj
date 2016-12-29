@@ -1,0 +1,530 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D28A65881E14D693000F6204 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65871E14D693000F6204 /* main.m */; };
+		D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A658A1E14D693000F6204 /* AppDelegate.m */; };
+		D28A658E1E14D693000F6204 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A658D1E14D693000F6204 /* ViewController.m */; };
+		D28A65911E14D693000F6204 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28A658F1E14D693000F6204 /* Main.storyboard */; };
+		D28A65931E14D693000F6204 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D28A65921E14D693000F6204 /* Assets.xcassets */; };
+		D28A65961E14D693000F6204 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28A65941E14D693000F6204 /* LaunchScreen.storyboard */; };
+		D28A65A11E14D694000F6204 /* xmppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65A01E14D694000F6204 /* xmppTests.m */; };
+		D28A65AC1E14D694000F6204 /* xmppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65AB1E14D694000F6204 /* xmppUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D28A659D1E14D694000F6204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D28A657B1E14D693000F6204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D28A65821E14D693000F6204;
+			remoteInfo = xmpp;
+		};
+		D28A65A81E14D694000F6204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D28A657B1E14D693000F6204 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D28A65821E14D693000F6204;
+			remoteInfo = xmpp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D28A65831E14D693000F6204 /* xmpp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmpp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D28A65871E14D693000F6204 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D28A65891E14D693000F6204 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D28A658A1E14D693000F6204 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D28A658C1E14D693000F6204 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D28A658D1E14D693000F6204 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D28A65901E14D693000F6204 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D28A65921E14D693000F6204 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D28A65951E14D693000F6204 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D28A65971E14D693000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D28A659C1E14D694000F6204 /* xmppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D28A65A01E14D694000F6204 /* xmppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xmppTests.m; sourceTree = "<group>"; };
+		D28A65A21E14D694000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D28A65A71E14D694000F6204 /* xmppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D28A65AB1E14D694000F6204 /* xmppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xmppUITests.m; sourceTree = "<group>"; };
+		D28A65AD1E14D694000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D28A65801E14D693000F6204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A65991E14D694000F6204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A65A41E14D694000F6204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D28A657A1E14D693000F6204 = {
+			isa = PBXGroup;
+			children = (
+				D28A65851E14D693000F6204 /* xmpp */,
+				D28A659F1E14D694000F6204 /* xmppTests */,
+				D28A65AA1E14D694000F6204 /* xmppUITests */,
+				D28A65841E14D693000F6204 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D28A65841E14D693000F6204 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65831E14D693000F6204 /* xmpp.app */,
+				D28A659C1E14D694000F6204 /* xmppTests.xctest */,
+				D28A65A71E14D694000F6204 /* xmppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D28A65851E14D693000F6204 /* xmpp */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65891E14D693000F6204 /* AppDelegate.h */,
+				D28A658A1E14D693000F6204 /* AppDelegate.m */,
+				D28A658C1E14D693000F6204 /* ViewController.h */,
+				D28A658D1E14D693000F6204 /* ViewController.m */,
+				D28A658F1E14D693000F6204 /* Main.storyboard */,
+				D28A65921E14D693000F6204 /* Assets.xcassets */,
+				D28A65941E14D693000F6204 /* LaunchScreen.storyboard */,
+				D28A65971E14D693000F6204 /* Info.plist */,
+				D28A65861E14D693000F6204 /* Supporting Files */,
+			);
+			path = xmpp;
+			sourceTree = "<group>";
+		};
+		D28A65861E14D693000F6204 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65871E14D693000F6204 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D28A659F1E14D694000F6204 /* xmppTests */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65A01E14D694000F6204 /* xmppTests.m */,
+				D28A65A21E14D694000F6204 /* Info.plist */,
+			);
+			path = xmppTests;
+			sourceTree = "<group>";
+		};
+		D28A65AA1E14D694000F6204 /* xmppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65AB1E14D694000F6204 /* xmppUITests.m */,
+				D28A65AD1E14D694000F6204 /* Info.plist */,
+			);
+			path = xmppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D28A65821E14D693000F6204 /* xmpp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D28A65B01E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmpp" */;
+			buildPhases = (
+				D28A657F1E14D693000F6204 /* Sources */,
+				D28A65801E14D693000F6204 /* Frameworks */,
+				D28A65811E14D693000F6204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = xmpp;
+			productName = xmpp;
+			productReference = D28A65831E14D693000F6204 /* xmpp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D28A659B1E14D694000F6204 /* xmppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D28A65B31E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmppTests" */;
+			buildPhases = (
+				D28A65981E14D694000F6204 /* Sources */,
+				D28A65991E14D694000F6204 /* Frameworks */,
+				D28A659A1E14D694000F6204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D28A659E1E14D694000F6204 /* PBXTargetDependency */,
+			);
+			name = xmppTests;
+			productName = xmppTests;
+			productReference = D28A659C1E14D694000F6204 /* xmppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D28A65A61E14D694000F6204 /* xmppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D28A65B61E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmppUITests" */;
+			buildPhases = (
+				D28A65A31E14D694000F6204 /* Sources */,
+				D28A65A41E14D694000F6204 /* Frameworks */,
+				D28A65A51E14D694000F6204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D28A65A91E14D694000F6204 /* PBXTargetDependency */,
+			);
+			name = xmppUITests;
+			productName = xmppUITests;
+			productReference = D28A65A71E14D694000F6204 /* xmppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D28A657B1E14D693000F6204 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = gocomtech;
+				TargetAttributes = {
+					D28A65821E14D693000F6204 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					D28A659B1E14D694000F6204 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D28A65821E14D693000F6204;
+					};
+					D28A65A61E14D694000F6204 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D28A65821E14D693000F6204;
+					};
+				};
+			};
+			buildConfigurationList = D28A657E1E14D693000F6204 /* Build configuration list for PBXProject "xmpp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D28A657A1E14D693000F6204;
+			productRefGroup = D28A65841E14D693000F6204 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D28A65821E14D693000F6204 /* xmpp */,
+				D28A659B1E14D694000F6204 /* xmppTests */,
+				D28A65A61E14D694000F6204 /* xmppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D28A65811E14D693000F6204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D28A65961E14D693000F6204 /* LaunchScreen.storyboard in Resources */,
+				D28A65931E14D693000F6204 /* Assets.xcassets in Resources */,
+				D28A65911E14D693000F6204 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A659A1E14D694000F6204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A65A51E14D694000F6204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D28A657F1E14D693000F6204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D28A658E1E14D693000F6204 /* ViewController.m in Sources */,
+				D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */,
+				D28A65881E14D693000F6204 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A65981E14D694000F6204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D28A65A11E14D694000F6204 /* xmppTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D28A65A31E14D694000F6204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D28A65AC1E14D694000F6204 /* xmppUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D28A659E1E14D694000F6204 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D28A65821E14D693000F6204 /* xmpp */;
+			targetProxy = D28A659D1E14D694000F6204 /* PBXContainerItemProxy */;
+		};
+		D28A65A91E14D694000F6204 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D28A65821E14D693000F6204 /* xmpp */;
+			targetProxy = D28A65A81E14D694000F6204 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D28A658F1E14D693000F6204 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D28A65901E14D693000F6204 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D28A65941E14D693000F6204 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D28A65951E14D693000F6204 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D28A65AE1E14D694000F6204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D28A65AF1E14D694000F6204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D28A65B11E14D694000F6204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = xmpp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmpp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D28A65B21E14D694000F6204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = xmpp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmpp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D28A65B41E14D694000F6204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = xmppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xmpp.app/xmpp";
+			};
+			name = Debug;
+		};
+		D28A65B51E14D694000F6204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = xmppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/xmpp.app/xmpp";
+			};
+			name = Release;
+		};
+		D28A65B71E14D694000F6204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = xmppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = xmpp;
+			};
+			name = Debug;
+		};
+		D28A65B81E14D694000F6204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = xmppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.im.xmppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = xmpp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D28A657E1E14D693000F6204 /* Build configuration list for PBXProject "xmpp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D28A65AE1E14D694000F6204 /* Debug */,
+				D28A65AF1E14D694000F6204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D28A65B01E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmpp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D28A65B11E14D694000F6204 /* Debug */,
+				D28A65B21E14D694000F6204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D28A65B31E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D28A65B41E14D694000F6204 /* Debug */,
+				D28A65B51E14D694000F6204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D28A65B61E14D694000F6204 /* Build configuration list for PBXNativeTarget "xmppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D28A65B71E14D694000F6204 /* Debug */,
+				D28A65B81E14D694000F6204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D28A657B1E14D693000F6204 /* Project object */;
+}
