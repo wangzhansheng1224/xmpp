@@ -35,12 +35,16 @@
 }
 
 - (void)initnavigation{
-    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"下线" style:UIBarButtonItemStylePlain target:self action:@selector(rightClick)];
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"注销" style:UIBarButtonItemStylePlain target:self action:@selector(rightClick)];
 }
 
 - (void)rightClick{
     [self disconnect];
     NSLog(@"下线了");
+    UIApplication *application = [UIApplication sharedApplication];
+    id delegate=[application delegate];
+    [delegate logout];
+    
 }
 
 - (void)initxmppStream{

@@ -25,7 +25,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
@@ -59,6 +58,12 @@
     return YES;
 }
 
+//注销
+- (void)logout
+{
+    NavViewController *nav=[[NavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+    [self.window setRootViewController:nav];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

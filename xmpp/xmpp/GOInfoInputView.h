@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface GOInfoInputView : UIView
-
+@property (nonatomic, strong) UITextField *textField;
 - (instancetype)initWithFrame:(CGRect)frame fieldName:(NSString *)name andLeftStr:(NSString *)leftstr;
 
 - (void)setCornerDirection:(UIRectCorner)direction;

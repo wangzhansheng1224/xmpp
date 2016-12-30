@@ -11,11 +11,12 @@
 
 
 @interface GOInfoInputView()
-@property (nonatomic, strong) UITextField *textField;
+
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UIButton *showPwdBtn;
 @property (nonatomic, strong) UIButton *clearTextBtn;
 @property (nonatomic, strong) UIView *showView;
+
 @end
 
 @implementation GOInfoInputView

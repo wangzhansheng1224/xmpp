@@ -18,5 +18,5 @@
 @property (strong, nonatomic) NSManagedObjectContext *xmppManagedObjectContext;
 @property (strong, nonatomic) NSManagedObjectContext *xmppRosterManagedObjectContext;
 
+- (void)logout;
 @end
-

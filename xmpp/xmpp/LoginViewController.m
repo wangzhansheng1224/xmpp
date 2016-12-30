@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "AppDelegate.h"
+#import "NavViewController.h"
 #import "MessageViewController.h"
 #import "GOInfoInputView.h"
 #import "UIView+PPCategory.h"
@@ -145,9 +146,10 @@
 -(void)xmppStreamDidAuthenticate:(XMPPStream *)sender
 {
     NSLog(@"登陆成功");
+    NavViewController *nav=[[NavViewController alloc]initWithRootViewController:[[MessageViewController alloc]init]];
+    UIApplication *application = [UIApplication sharedApplication];
+    [application.keyWindow setRootViewController:nav];
     
-    MessageViewController *vc=[[MessageViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
