@@ -18,7 +18,7 @@
 /**
  *  显示失败信息,附带失败标记
  *
- *  @param success 自定义字符串
+ *  @param error 自定义字符串
  *  @param view    目标视图
  */
 + (void)showError:(NSString *)error toView:(UIView *)view;

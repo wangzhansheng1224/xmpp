@@ -11,12 +11,14 @@
 #import "MessageViewController.h"
 #import "GOInfoInputView.h"
 #import "UIView+PPCategory.h"
+#import "MBProgressHUD+FX.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (strong, nonatomic) XMPPStream * xmppStream;
 @property (nonatomic, retain) GOInfoInputView *usrNameInputView;
 @property (nonatomic, retain) GOInfoInputView *passwordInputView;
-@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, retain) GOInfoInputView *fuwuqiInputView;
+@property (nonatomic, retain) UIButton *loginButton;
 @property (nonatomic, retain) UIButton *registerButton;
 @property (nonatomic, retain) UIButton *getPassWordBtn;
 @property (nonatomic, retain) UIButton *setNetWork;
@@ -29,48 +31,66 @@
     [super viewDidLoad];
     self.title=@"账号登录";
     [self creatUI];
-    [self.usrNameInputView.textField becomeFirstResponder];
     [self initxmppSteam];
-    
 }
 
 - (void)creatUI{
     //背景图
-    [self.view setBackgroundImage:[UIImage imageNamed:@"BG-"]];
+    [self.view setBackgroundImage:[UIImage imageNamed:@"BG"]];
     
     CGPoint topCenter = CGPointMake([UIScreen mainScreen].bounds.size.width / 2.0, 130.0/568*IMScreenHeight);
     CGFloat deltaY = 51/568.0*IMScreenHeight;
     CGRect inputBounds =  CGRectMake(0.0, 0.0, 290.0/320.0*IMScreenWidth, 42.0/568*IMScreenHeight);
     self.topCenterPoint = topCenter;
 
+    //用户名输入框
     _usrNameInputView = [[GOInfoInputView alloc] initWithFrame:inputBounds fieldName:@"username" andLeftStr:@"用户名:"];
     _usrNameInputView.center = topCenter;
     _usrNameInputView.textField.returnKeyType = UIReturnKeyNext;
     _usrNameInputView.textField.delegate = self;
     _usrNameInputView.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    //默认自动纠错(关闭)
     _usrNameInputView.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    //默认首字母大写(关闭)
     _usrNameInputView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [_usrNameInputView setCornerDirection:UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerAllCorners];
+    //切圆角
+    [_usrNameInputView setCornerDirection:UIRectCornerAllCorners];
+//    另一种方案
+//    _usrNameInputView.layer.cornerRadius=5;
+//    _usrNameInputView.layer.masksToBounds=YES;
     [self.view addSubview:_usrNameInputView];
+    //进入界面成为第一响应
+    [self.usrNameInputView.textField becomeFirstResponder];
     
-    
+    //密码输入框
     _passwordInputView = [[GOInfoInputView alloc] initWithFrame:inputBounds fieldName:@"password" andLeftStr:@"密    码:"];
     _passwordInputView.center = CGPointMake(topCenter.x, topCenter.y + deltaY);
-    _passwordInputView.textField.returnKeyType = UIReturnKeyDone;
-    _passwordInputView.textField.clearsOnBeginEditing = NO;
+    _passwordInputView.textField.returnKeyType = UIReturnKeyNext;
     _passwordInputView.textField.secureTextEntry = YES;
     _passwordInputView.textField.delegate = self;
     [_passwordInputView showPwdBtnShow];
-    [_passwordInputView setCornerDirection:UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerAllCorners];
+    [_passwordInputView setCornerDirection:UIRectCornerAllCorners];
     [self.view addSubview:_passwordInputView];
     
-    //监听文字改变
+    //服务器地址
+    _fuwuqiInputView = [[GOInfoInputView alloc] initWithFrame:inputBounds fieldName:@"fuwuqi" andLeftStr:@"服务器:"];
+    _fuwuqiInputView.center = CGPointMake(topCenter.x, topCenter.y + 2*deltaY);
+    _fuwuqiInputView.textField.returnKeyType = UIReturnKeyDone;
+    _fuwuqiInputView.textField.delegate = self;
+    _fuwuqiInputView.textField.keyboardType = UIKeyboardTypeEmailAddress;
+    _fuwuqiInputView.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _fuwuqiInputView.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    [_fuwuqiInputView setCornerDirection:UIRectCornerAllCorners];
+    [self.view addSubview:_fuwuqiInputView];
+
+    //监听文字改变(当编辑结束时执行)
     [_usrNameInputView.textField addTarget:self action:@selector(textDidChange:) forControlEvents:UIControlEventEditingDidEnd];
     
+    //登录按钮
     self.loginButton = [[UIButton alloc]initWithFrame:inputBounds];
     [self.loginButton setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    self.loginButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _passwordInputView.center.y + deltaY + 32.0);
+    self.loginButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _fuwuqiInputView.center.y + deltaY + 32.0);
     self.loginButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [self.loginButton addTarget:self action:@selector(loginTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.loginButton];
@@ -79,96 +99,9 @@
 //登录
 - (void)loginTapped:(UIButton *)sender
 {
-    
-    
-    if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.hudOverlayView animated:YES];
-        hud.frame = CGRectMake(0.0, 100.0, IMScreenWidth, 100.0);
-        hud.mode = MBProgressHUDModeText;
-        hud.completionBlock = ^{self.hudOverlayView.hidden = YES;};
-        hud.labelText = LOCALIZEDSTRING(@"无网络连接");
-        [hud hide:NO afterDelay:2.0];
-        return;
-    }
-    
-    if (self.usrNameInputView.textField.text.length == 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.hudOverlayView animated:YES];
-        hud.frame = CGRectMake(0.0, 100.0, IMScreenWidth, 100.0);
-        hud.mode = MBProgressHUDModeText;
-        hud.completionBlock = ^{self.hudOverlayView.hidden = YES;};
-        hud.labelText = LOCALIZEDSTRING(@"请输入用户名");
-        [hud hide:NO afterDelay:2.0];
-    }
-    else if (self.serverStr.length == 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.hudOverlayView animated:YES];
-        hud.frame = CGRectMake(0.0, 100.0, IMScreenWidth, 100.0);
-        hud.mode = MBProgressHUDModeText;
-        hud.completionBlock = ^{self.hudOverlayView.hidden = YES;};
-        hud.labelText = LOCALIZEDSTRING(@"请配置网络");
-        [hud hide:NO afterDelay:2.0];
-    }
-    else if ([self.passwordInputView.textField.text length] < 1) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.hudOverlayView animated:YES];
-        hud.frame = CGRectMake(0.0, 100.0, IMScreenWidth, 100.0);
-        hud.mode = MBProgressHUDModeText;
-        hud.completionBlock = ^{self.hudOverlayView.hidden = YES;};
-        hud.labelText = LOCALIZEDSTRING(@"请输入密码");
-        [hud hide:NO afterDelay:2.0];
-    }
-    else {
-        //输入都合法后,发送请求给服务器
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccessCallbackNotificationReceived:) name:kGOCOMLoginSuccessNote object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFailedCallbackNotificationReceived:) name:kGOCOMLoginFailedNote object:nil];
-        //断网处理
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(talksShouldBeDelete:) name:@"talksShouldBeDelete" object:nil];
-        //取得域
-        NSString *userNameDomain = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginDomain"];
-        if (userNameDomain.length == 0) {
-            userNameDomain = [@"@" stringByAppendingString:GOCOMDOMAIN];
-        }
-        
-        NSString *userNameResult = [NSString string];
-        NSString *userNameStr = _usrNameInputView.textField.text;
-        
-        //判断用户名或密码是否带有域
-        if ([userNameStr rangeOfString:@"@"].location != NSNotFound) {
-            userNameResult = _usrNameInputView.textField.text;
-        }
-        else{
-            userNameResult = [NSString stringWithFormat:@"%@%@", self.usrNameInputView.textField.text, userNameDomain];
-        }
-        
-        [del.imAgent loginGoComServerWithUserID:[userNameResult lowercaseString] passwd:self.passwordInputView.textField.text server:self.serverStr retry:NO];
-        self.loginHUD = [MBProgressHUD showHUDAddedTo:self.hudOverlayView animated:YES];
-        self.loginHUD.mode = MBProgressHUDModeIndeterminate;
-        
-        self.loginHUD.completionBlock = ^{self.hudOverlayView.hidden = YES;};
-        self.loginHUD.labelText = LOCALIZEDSTRING(@"登录中");
-        self.loginButton.enabled = NO;
-        
-        
-        /** "username" 为不带域的用户名，用来显示在用户名输入框内  "userName" 为带域的用户名，用来进行登录 */
-        NSData *secretPwd = [[self.passwordInputView.textField.text dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptWithKey:SECRETKEY];
-        self.loginInfos = @{@"username": [self.usrNameInputView.textField.text lowercaseString], @"password": secretPwd, @"server": self.serverStr, @"userName": [userNameResult lowercaseString]};
-        [[NSUserDefaults standardUserDefaults] setObject:self.loginInfos forKey:@"SecretLastLogin"];
-        //        self.loginInfos = @{@"username": [self.usrNameInputView.textField.text lowercaseString], @"password": self.passwordInputView.textField.text, @"server": self.serverStr, @"userName": [userNameResult lowercaseString]};
-        //
-        //        [[NSUserDefaults standardUserDefaults] setObject:self.loginInfos forKey:@"lastlogin"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
+    //连接服务器
+    [self xmppConnect];
 }
-
-//智能输入
--(void)textDidChange:(UITextField *)textInput
-{
-    //过滤非法字符
-    if (textInput == self.usrNameInputView.textField) {
-        NSCharacterSet *doNotWant = [NSCharacterSet characterSetWithCharactersInString:@"[]{}（#%*+=）\\|~(＜＞$%^&*)+ "];
-        textInput.text = [[textInput.text componentsSeparatedByCharactersInSet: doNotWant]componentsJoinedByString: @""];
-    }
-}
-
 
 - (void)initxmppSteam{
     //获取应用的xmppSteam(通过Application中的单例获取)
@@ -178,16 +111,13 @@
     
     //注册回调
     [self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    //连接服务器
-    [self xmppConnect];
 }
 
 //连接服务器
 -(void)xmppConnect
 {
     //1.创建JID
-    XMPPJID *jid = [XMPPJID jidWithUser:@"test001" domain:@"localhost" resource:@"iPhone"];
+    XMPPJID *jid = [XMPPJID jidWithUser:_usrNameInputView.textField.text domain:_fuwuqiInputView.textField.text resource:@"iPhone"];
     
     //2.把JID添加到xmppSteam中
     [self.xmppStream setMyJID:jid];
@@ -205,7 +135,7 @@
 {
     //连接成功后认证用户名和密码
     NSError *error = nil;
-    [self.xmppStream authenticateWithPassword:@"1" error:&error];
+    [self.xmppStream authenticateWithPassword:_passwordInputView.textField.text error:&error];
     if (error) {
         NSLog(@"认证错误：%@",[error localizedDescription]);
     }
@@ -217,7 +147,7 @@
     NSLog(@"登陆成功");
     
     MessageViewController *vc=[[MessageViewController alloc]init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -227,7 +157,31 @@
     NSLog(@"登陆失败");
 }
 
+//智能输入
+-(void)textDidChange:(UITextField *)textInput
+{
+    //过滤非法字符
+    if (textInput == self.usrNameInputView.textField) {
+        NSCharacterSet *doNotWant = [NSCharacterSet characterSetWithCharactersInString:@"[]{}（#%*+=）\\|~(＜＞$%^&*)+ "];
+        textInput.text = [[textInput.text componentsSeparatedByCharactersInSet: doNotWant]componentsJoinedByString: @""];
+    }
+}
 
+#pragma mark - UITextField Delegate Methods
+//return按钮点击事件
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == self.usrNameInputView.textField) {
+        [self.passwordInputView.textField becomeFirstResponder];
+    }else if (textField == self.passwordInputView.textField) {
+        [self.passwordInputView.textField becomeFirstResponder];
+    }else if (textField == self.fuwuqiInputView.textField) {
+        [self loginTapped:nil];
+    }
+    return YES;
+}
+
+//当输入密码时隐藏最新输入的按钮
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if (textField == self.passwordInputView.textField && textField.secureTextEntry == YES) {

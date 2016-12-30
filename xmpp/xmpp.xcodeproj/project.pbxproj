@@ -16,7 +16,6 @@
 		D212EFA81E150CD40081AD2A /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D212EFA51E150CD40081AD2A /* MBProgressHUD.bundle */; };
 		D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */; };
 		D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFBA1E151A870081AD2A /* NavViewController.m */; };
-		D212EFBE1E151F270081AD2A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFBD1E151F270081AD2A /* Reachability.m */; };
 		D28A65881E14D693000F6204 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65871E14D693000F6204 /* main.m */; };
 		D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A658A1E14D693000F6204 /* AppDelegate.m */; };
 		D28A65911E14D693000F6204 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28A658F1E14D693000F6204 /* Main.storyboard */; };
@@ -25,6 +24,7 @@
 		D28A65A11E14D694000F6204 /* xmppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65A01E14D694000F6204 /* xmppTests.m */; };
 		D28A65AC1E14D694000F6204 /* xmppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65AB1E14D694000F6204 /* xmppUITests.m */; };
 		D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65BA1E14DA34000F6204 /* LoginViewController.m */; };
+		D2E75C551E162FA000B81CA2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E75C541E162FA000B81CA2 /* ViewController.m */; };
 		FF1824187EE18E46EA867C5A /* Pods_xmpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873D53BF11C2C56909CE5DCC /* Pods_xmpp.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,26 +48,24 @@
 /* Begin PBXFileReference section */
 		09549F29EBC2C0FA07C36E80 /* Pods-xmpp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xmpp.release.xcconfig"; path = "Pods/Target Support Files/Pods-xmpp/Pods-xmpp.release.xcconfig"; sourceTree = "<group>"; };
 		873D53BF11C2C56909CE5DCC /* Pods_xmpp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xmpp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D212EF8E1E14EE700081AD2A /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
-		D212EF8F1E14EE700081AD2A /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
-		D212EF921E14F8950081AD2A /* HistoryFrirend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryFrirend.h; sourceTree = "<group>"; };
-		D212EF931E14F8950081AD2A /* HistoryFrirend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryFrirend.m; sourceTree = "<group>"; };
-		D212EF951E14F8A30081AD2A /* FriendModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendModelClass.h; sourceTree = "<group>"; };
-		D212EF961E14F8A30081AD2A /* FriendModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendModelClass.m; sourceTree = "<group>"; };
-		D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GOInfoInputView.h; sourceTree = "<group>"; };
-		D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GOInfoInputView.m; sourceTree = "<group>"; };
+		D212EF8E1E14EE700081AD2A /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageViewController.h; path = xmpp/MessageViewController.h; sourceTree = SOURCE_ROOT; };
+		D212EF8F1E14EE700081AD2A /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageViewController.m; path = xmpp/MessageViewController.m; sourceTree = SOURCE_ROOT; };
+		D212EF921E14F8950081AD2A /* HistoryFrirend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HistoryFrirend.h; path = ../HistoryFrirend.h; sourceTree = "<group>"; };
+		D212EF931E14F8950081AD2A /* HistoryFrirend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryFrirend.m; path = ../HistoryFrirend.m; sourceTree = "<group>"; };
+		D212EF951E14F8A30081AD2A /* FriendModelClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendModelClass.h; path = ../FriendModelClass.h; sourceTree = "<group>"; };
+		D212EF961E14F8A30081AD2A /* FriendModelClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendModelClass.m; path = ../FriendModelClass.m; sourceTree = "<group>"; };
+		D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GOInfoInputView.h; path = ../GOInfoInputView.h; sourceTree = "<group>"; };
+		D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GOInfoInputView.m; path = ../GOInfoInputView.m; sourceTree = "<group>"; };
 		D212EFA01E150CD40081AD2A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		D212EFA11E150CD40081AD2A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		D212EFA31E150CD40081AD2A /* MBProgressHUD+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+FX.h"; sourceTree = "<group>"; };
 		D212EFA41E150CD40081AD2A /* MBProgressHUD+FX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+FX.m"; sourceTree = "<group>"; };
 		D212EFA51E150CD40081AD2A /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		D212EFA91E150D5F0081AD2A /* xmpp.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmpp.pch; sourceTree = "<group>"; };
-		D212EFAA1E1511DF0081AD2A /* UIView+PPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PPCategory.h"; sourceTree = "<group>"; };
-		D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PPCategory.m"; sourceTree = "<group>"; };
-		D212EFB91E151A870081AD2A /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
-		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
-		D212EFBC1E151F270081AD2A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		D212EFBD1E151F270081AD2A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		D212EFAA1E1511DF0081AD2A /* UIView+PPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+PPCategory.h"; path = "../UIView+PPCategory.h"; sourceTree = "<group>"; };
+		D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+PPCategory.m"; path = "../UIView+PPCategory.m"; sourceTree = "<group>"; };
+		D212EFB91E151A870081AD2A /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavViewController.h; path = ../NavViewController.h; sourceTree = "<group>"; };
+		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavViewController.m; path = ../NavViewController.m; sourceTree = "<group>"; };
 		D28A65831E14D693000F6204 /* xmpp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmpp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D28A65871E14D693000F6204 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D28A65891E14D693000F6204 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,8 +80,10 @@
 		D28A65A71E14D694000F6204 /* xmppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D28A65AB1E14D694000F6204 /* xmppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xmppUITests.m; sourceTree = "<group>"; };
 		D28A65AD1E14D694000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D28A65B91E14DA34000F6204 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		D28A65BA1E14DA34000F6204 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		D28A65B91E14DA34000F6204 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = xmpp/LoginViewController.h; sourceTree = SOURCE_ROOT; };
+		D28A65BA1E14DA34000F6204 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = xmpp/LoginViewController.m; sourceTree = SOURCE_ROOT; };
+		D2E75C531E162FA000B81CA2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D2E75C541E162FA000B81CA2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DABE54D1F9B62B986DF7307D /* Pods-xmpp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xmpp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xmpp/Pods-xmpp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,10 +116,7 @@
 		D212EF9E1E150C840081AD2A /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				D212EFBC1E151F270081AD2A /* Reachability.h */,
-				D212EFBD1E151F270081AD2A /* Reachability.m */,
-				D212EFAA1E1511DF0081AD2A /* UIView+PPCategory.h */,
-				D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */,
+				D2E75C511E162F5900B81CA2 /* UIViewHelper */,
 				D212EF9F1E150CD40081AD2A /* MBProgressHUD */,
 				D212EFA21E150CD40081AD2A /* MBProgressHuDHelper */,
 			);
@@ -172,19 +169,12 @@
 			children = (
 				D28A65891E14D693000F6204 /* AppDelegate.h */,
 				D28A658A1E14D693000F6204 /* AppDelegate.m */,
-				D28A65B91E14DA34000F6204 /* LoginViewController.h */,
-				D28A65BA1E14DA34000F6204 /* LoginViewController.m */,
-				D212EF8E1E14EE700081AD2A /* MessageViewController.h */,
-				D212EF8F1E14EE700081AD2A /* MessageViewController.m */,
-				D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */,
-				D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */,
-				D212EFB91E151A870081AD2A /* NavViewController.h */,
-				D212EFBA1E151A870081AD2A /* NavViewController.m */,
+				D2E75C531E162FA000B81CA2 /* ViewController.h */,
+				D2E75C541E162FA000B81CA2 /* ViewController.m */,
+				D2E75C501E162F2100B81CA2 /* Login */,
+				D2E75C4F1E162EFF00B81CA2 /* Navigaion */,
+				D2E75C521E162F7600B81CA2 /* Message */,
 				D212EF9E1E150C840081AD2A /* Library */,
-				D212EF921E14F8950081AD2A /* HistoryFrirend.h */,
-				D212EF931E14F8950081AD2A /* HistoryFrirend.m */,
-				D212EF951E14F8A30081AD2A /* FriendModelClass.h */,
-				D212EF961E14F8A30081AD2A /* FriendModelClass.m */,
 				D28A658F1E14D693000F6204 /* Main.storyboard */,
 				D28A65921E14D693000F6204 /* Assets.xcassets */,
 				D28A65941E14D693000F6204 /* LaunchScreen.storyboard */,
@@ -219,6 +209,49 @@
 				D28A65AD1E14D694000F6204 /* Info.plist */,
 			);
 			path = xmppUITests;
+			sourceTree = "<group>";
+		};
+		D2E75C4F1E162EFF00B81CA2 /* Navigaion */ = {
+			isa = PBXGroup;
+			children = (
+				D212EFB91E151A870081AD2A /* NavViewController.h */,
+				D212EFBA1E151A870081AD2A /* NavViewController.m */,
+			);
+			name = Navigaion;
+			path = "导航栏";
+			sourceTree = "<group>";
+		};
+		D2E75C501E162F2100B81CA2 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D28A65B91E14DA34000F6204 /* LoginViewController.h */,
+				D28A65BA1E14DA34000F6204 /* LoginViewController.m */,
+				D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */,
+				D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		D2E75C511E162F5900B81CA2 /* UIViewHelper */ = {
+			isa = PBXGroup;
+			children = (
+				D212EFAA1E1511DF0081AD2A /* UIView+PPCategory.h */,
+				D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */,
+			);
+			path = UIViewHelper;
+			sourceTree = "<group>";
+		};
+		D2E75C521E162F7600B81CA2 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				D212EF8E1E14EE700081AD2A /* MessageViewController.h */,
+				D212EF8F1E14EE700081AD2A /* MessageViewController.m */,
+				D212EF921E14F8950081AD2A /* HistoryFrirend.h */,
+				D212EF931E14F8950081AD2A /* HistoryFrirend.m */,
+				D212EF951E14F8A30081AD2A /* FriendModelClass.h */,
+				D212EF961E14F8A30081AD2A /* FriendModelClass.m */,
+			);
+			path = Message;
 			sourceTree = "<group>";
 		};
 		E3AA15173A84A15D4EA1FDA7 /* Pods */ = {
@@ -430,11 +463,11 @@
 				D212EFA71E150CD40081AD2A /* MBProgressHUD+FX.m in Sources */,
 				D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */,
 				D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */,
+				D2E75C551E162FA000B81CA2 /* ViewController.m in Sources */,
 				D212EF971E14F8A30081AD2A /* FriendModelClass.m in Sources */,
 				D212EFA61E150CD40081AD2A /* MBProgressHUD.m in Sources */,
 				D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */,
 				D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */,
-				D212EFBE1E151F270081AD2A /* Reachability.m in Sources */,
 				D28A65881E14D693000F6204 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
