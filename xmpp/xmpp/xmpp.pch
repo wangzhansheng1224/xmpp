@@ -1,0 +1,17 @@
+//
+//  xmpp.pch
+//  xmpp
+//
+//  Created by 王战胜 on 2016/12/29.
+//  Copyright © 2016年 gocomtech. All rights reserved.
+//
+
+#ifndef xmpp_pch
+#define xmpp_pch
+
+#define IMScreenWidth [UIScreen mainScreen].bounds.size.width
+#define IMScreenHeight [UIScreen mainScreen].bounds.size.height
+#define UICOLOR_RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define UICOLOR_RGB(r, g, b) UICOLOR_RGBA(r, g, b, 1)
+
+#endif /* xmpp_pch */

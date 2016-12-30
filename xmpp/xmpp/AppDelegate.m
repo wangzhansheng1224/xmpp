@@ -8,8 +8,18 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "XMPPReconnect.h"
+#import "XMPPMessageArchiving.h"
+#import "NavViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate (){
+    XMPPReconnect *xmppReconnect;                           //重新连接
+    XMPPMessageArchiving * xmppMessageArchiving;            //消息保存
+    XMPPMessageArchivingCoreDataStorage * messageStorage;   //把请求的数据添加到CoreDate中
+    
+    XMPPRoster *xmppRoster;                                 //好友列表保存
+    XMPPRosterCoreDataStorage *xmppRosterStorage;
+}
 
 @end
 
@@ -20,11 +30,31 @@
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
-    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+    self.window.rootViewController = [[NavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
     
     [self.window makeKeyAndVisible];
 
     self.xmppStream = [[XMPPStream alloc]init];
+    
+    //创建消息保存策略（规则，规定）
+    messageStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+    //用消息保存策略创建消息保存组件
+    xmppMessageArchiving = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:messageStorage];
+    //使组件生效
+    [xmppMessageArchiving activate:self.xmppStream];
+    //提取消息保存组件的coreData上下文
+    self.xmppManagedObjectContext = messageStorage.mainThreadManagedObjectContext;
+    
+    
+    
+    xmppRosterStorage = [[XMPPRosterCoreDataStorage alloc] init];
+    xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:xmppRosterStorage];
+    //自动获取用户列表
+    xmppRoster.autoFetchRoster = YES;
+    xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = YES;
+    
+    [xmppRoster activate:self.xmppStream];
+    self.xmppRosterManagedObjectContext = xmppRosterStorage.mainThreadManagedObjectContext;
     
     return YES;
 }

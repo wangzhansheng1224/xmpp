@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  NavViewController.h
 //  xmpp
 //
 //  Created by 王战胜 on 2016/12/29.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface NavViewController : UINavigationController
 
 @end
-
