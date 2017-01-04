@@ -7,16 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XMPP.h"
-#import "XMPPRosterCoreDataStorage.h"
-#import "XMPPMessageArchivingCoreDataStorage.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) XMPPStream * xmppStream;
-@property (strong, nonatomic) NSManagedObjectContext *xmppManagedObjectContext;
-@property (strong, nonatomic) NSManagedObjectContext *xmppRosterManagedObjectContext;
 
-- (void)logout;
 @end

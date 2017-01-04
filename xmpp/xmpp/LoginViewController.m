@@ -7,22 +7,21 @@
 //
 
 #import "LoginViewController.h"
-#import "AppDelegate.h"
 #import "NavViewController.h"
 #import "MessageViewController.h"
 #import "GOInfoInputView.h"
 #import "UIView+PPCategory.h"
 #import "MBProgressHUD+FX.h"
+#import "XMPPManager.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
-@property (strong, nonatomic) XMPPStream * xmppStream;
-@property (nonatomic, retain) GOInfoInputView *usrNameInputView;
-@property (nonatomic, retain) GOInfoInputView *passwordInputView;
-@property (nonatomic, retain) GOInfoInputView *fuwuqiInputView;
-@property (nonatomic, retain) UIButton *loginButton;
-@property (nonatomic, retain) UIButton *registerButton;
-@property (nonatomic, retain) UIButton *getPassWordBtn;
-@property (nonatomic, retain) UIButton *setNetWork;
+@property (nonatomic, strong) GOInfoInputView *usrNameInputView;
+@property (nonatomic, strong) GOInfoInputView *passwordInputView;
+@property (nonatomic, strong) GOInfoInputView *fuwuqiInputView;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UIButton *registerButton;
+@property (nonatomic, strong) UIButton *getPassWordBtn;
+@property (nonatomic, strong) UIButton *setNetWork;
 @property (nonatomic, assign) CGPoint topCenterPoint;
 @end
 
@@ -32,7 +31,9 @@
     [super viewDidLoad];
     self.title=@"账号登录";
     [self creatUI];
-    [self initxmppSteam];
+    _usrNameInputView.textField.text=@"test001";
+    _passwordInputView.textField.text=@"1";
+    _fuwuqiInputView.textField.text=LOCALHOST;
 }
 
 - (void)creatUI{
@@ -93,70 +94,32 @@
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
     self.loginButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _fuwuqiInputView.center.y + deltaY + 32.0);
     self.loginButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    [self.loginButton addTarget:self action:@selector(loginTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.loginButton addTarget:self action:@selector(loginTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.loginButton];
+    
+    self.registerButton = [[UIButton alloc]initWithFrame:inputBounds];
+    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+    [self.registerButton setTitle:@"注册" forState:UIControlStateNormal];
+    self.registerButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _loginButton.center.y + deltaY);
+    self.registerButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    [self.registerButton addTarget:self action:@selector(registerTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.registerButton];
 }
 
-//登录
-- (void)loginTapped:(UIButton *)sender
-{
-    //连接服务器
-    [self xmppConnect];
-}
-
-- (void)initxmppSteam{
-    //获取应用的xmppSteam(通过Application中的单例获取)
-    UIApplication *application = [UIApplication sharedApplication];
-    id delegate = [application delegate];
-    self.xmppStream = [delegate xmppStream];
-    
-    //注册回调
-    [self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
-}
-
-//连接服务器
--(void)xmppConnect
-{
-    //1.创建JID
-    XMPPJID *jid = [XMPPJID jidWithUser:_usrNameInputView.textField.text domain:_fuwuqiInputView.textField.text resource:@"iPhone"];
-    
-    //2.把JID添加到xmppSteam中
-    [self.xmppStream setMyJID:jid];
-    
-    //连接服务器
-    NSError *error = nil;
-    [self.xmppStream connectWithTimeout:10 error:&error];
-    if (error) {
-        NSLog(@"连接出错：%@",[error localizedDescription]);
+- (void)loginTapped{
+    NSLog(@"点击登陆了");
+    if (_usrNameInputView.textField.text.length==0 || _passwordInputView.textField.text.length==0) {
+        NSLog(@"用户名和密码不能为空");
     }
+    [[XMPPManager defaultManager]loginwithName:_usrNameInputView.textField.text andPassword:_passwordInputView.textField.text andFuwuqi:_fuwuqiInputView.textField.text];
 }
 
-//连接后的回调
--(void)xmppStreamDidConnect:(XMPPStream *)sender
-{
-    //连接成功后认证用户名和密码
-    NSError *error = nil;
-    [self.xmppStream authenticateWithPassword:_passwordInputView.textField.text error:&error];
-    if (error) {
-        NSLog(@"认证错误：%@",[error localizedDescription]);
+- (void)registerTapped{
+    NSLog(@"点击注册了");
+    if (_usrNameInputView.textField.text.length==0 || _passwordInputView.textField.text.length==0) {
+        NSLog(@"用户名和密码不能为空");
     }
-}
-
-//认证成功后的回调
--(void)xmppStreamDidAuthenticate:(XMPPStream *)sender
-{
-    NSLog(@"登陆成功");
-    NavViewController *nav=[[NavViewController alloc]initWithRootViewController:[[MessageViewController alloc]init]];
-    UIApplication *application = [UIApplication sharedApplication];
-    [application.keyWindow setRootViewController:nav];
-    
-    
-}
-
-//认证成功后的回调
--(void)xmppStream:sender didNotAuthenticate:(DDXMLElement *)error
-{
-    NSLog(@"登陆失败");
+    [[XMPPManager defaultManager]registerWithName:_usrNameInputView.textField.text andPassword:_passwordInputView.textField.text andFuwuqi:_fuwuqiInputView.textField.text];
 }
 
 //智能输入
@@ -178,7 +141,7 @@
     }else if (textField == self.passwordInputView.textField) {
         [self.passwordInputView.textField becomeFirstResponder];
     }else if (textField == self.fuwuqiInputView.textField) {
-        [self loginTapped:nil];
+        
     }
     return YES;
 }
