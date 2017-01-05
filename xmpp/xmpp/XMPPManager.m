@@ -136,7 +136,6 @@
     [self.xmppStream sendElement:presence];
     //断开链接
     [self.xmppStream disconnect];
-    [self.xmppStream removeDelegate:self];
     NSLog(@"断开连接");
     //清空好友列表
     _rosterArr=nil;

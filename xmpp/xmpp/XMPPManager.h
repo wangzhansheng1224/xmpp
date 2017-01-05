@@ -47,7 +47,6 @@ typedef enum{
 - (void)XMPPAddFriendSubscribe:(NSString *)name;
 //删除好友
 - (void)removeBuddy:(NSString *)name;
-- (void)archiveMessage:(XMPPMessage *)message outgoing:(BOOL)isOutgoing xmppStream:(XMPPStream *)stream;
 
 @end
 
