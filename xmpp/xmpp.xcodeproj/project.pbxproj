@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D20D1DCC1E1DE5A9006B201B /* LeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DCA1E1DE5A9006B201B /* LeftTableViewCell.m */; };
+		D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */; };
+		D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */; };
+		D20D1DD21E1DE7E3006B201B /* RightTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */; };
 		D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EF8F1E14EE700081AD2A /* MessageViewController.m */; };
 		D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */; };
 		D212EFA61E150CD40081AD2A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFA11E150CD40081AD2A /* MBProgressHUD.m */; };
@@ -49,6 +53,12 @@
 /* Begin PBXFileReference section */
 		09549F29EBC2C0FA07C36E80 /* Pods-xmpp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xmpp.release.xcconfig"; path = "Pods/Target Support Files/Pods-xmpp/Pods-xmpp.release.xcconfig"; sourceTree = "<group>"; };
 		873D53BF11C2C56909CE5DCC /* Pods_xmpp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xmpp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D20D1DC91E1DE5A9006B201B /* LeftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftTableViewCell.h; sourceTree = "<group>"; };
+		D20D1DCA1E1DE5A9006B201B /* LeftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftTableViewCell.m; sourceTree = "<group>"; };
+		D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftTableViewCell.xib; sourceTree = "<group>"; };
+		D20D1DCE1E1DE7E3006B201B /* RightTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightTableViewCell.h; sourceTree = "<group>"; };
+		D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightTableViewCell.m; sourceTree = "<group>"; };
+		D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightTableViewCell.xib; sourceTree = "<group>"; };
 		D212EF8E1E14EE700081AD2A /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageViewController.h; path = xmpp/MessageViewController.h; sourceTree = SOURCE_ROOT; };
 		D212EF8F1E14EE700081AD2A /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageViewController.m; path = xmpp/MessageViewController.m; sourceTree = SOURCE_ROOT; };
 		D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GOInfoInputView.h; path = ../GOInfoInputView.h; sourceTree = "<group>"; };
@@ -65,8 +75,8 @@
 		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavViewController.m; path = ../NavViewController.m; sourceTree = "<group>"; };
 		D275A1AF1E1B512B00415FBC /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		D275A1B01E1B512B00415FBC /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
-		D275A1B51E1CDAA900415FBC /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
-		D275A1B61E1CDAA900415FBC /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		D275A1B51E1CDAA900415FBC /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatViewController.h; path = ../Message/ChatViewController.h; sourceTree = "<group>"; };
+		D275A1B61E1CDAA900415FBC /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatViewController.m; path = ../Message/ChatViewController.m; sourceTree = "<group>"; };
 		D275A1B81E1CEB9E00415FBC /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		D275A1B91E1CEB9E00415FBC /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		D28A65831E14D693000F6204 /* xmpp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xmpp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +126,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D20D1DC51E1DE55A006B201B /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D275A1B51E1CDAA900415FBC /* ChatViewController.h */,
+				D275A1B61E1CDAA900415FBC /* ChatViewController.m */,
+				D20D1DC91E1DE5A9006B201B /* LeftTableViewCell.h */,
+				D20D1DCA1E1DE5A9006B201B /* LeftTableViewCell.m */,
+				D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */,
+				D20D1DCE1E1DE7E3006B201B /* RightTableViewCell.h */,
+				D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */,
+				D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		D212EF9E1E150C840081AD2A /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +201,7 @@
 				D2E75C541E162FA000B81CA2 /* ViewController.m */,
 				D275A1AF1E1B512B00415FBC /* XMPPManager.h */,
 				D275A1B01E1B512B00415FBC /* XMPPManager.m */,
+				D20D1DC51E1DE55A006B201B /* Chat */,
 				D2E75C501E162F2100B81CA2 /* Login */,
 				D2E75C4F1E162EFF00B81CA2 /* Navigaion */,
 				D2E75C521E162F7600B81CA2 /* Message */,
@@ -251,8 +277,6 @@
 			children = (
 				D212EF8E1E14EE700081AD2A /* MessageViewController.h */,
 				D212EF8F1E14EE700081AD2A /* MessageViewController.m */,
-				D275A1B51E1CDAA900415FBC /* ChatViewController.h */,
-				D275A1B61E1CDAA900415FBC /* ChatViewController.m */,
 				D275A1B81E1CEB9E00415FBC /* AddViewController.h */,
 				D275A1B91E1CEB9E00415FBC /* AddViewController.m */,
 			);
@@ -386,6 +410,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D20D1DD21E1DE7E3006B201B /* RightTableViewCell.xib in Resources */,
+				D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */,
 				D28A65961E14D693000F6204 /* LaunchScreen.storyboard in Resources */,
 				D212EFA81E150CD40081AD2A /* MBProgressHUD.bundle in Resources */,
 				D28A65931E14D693000F6204 /* Assets.xcassets in Resources */,
@@ -462,6 +488,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D20D1DCC1E1DE5A9006B201B /* LeftTableViewCell.m in Sources */,
 				D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */,
 				D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */,
 				D275A1B71E1CDAA900415FBC /* ChatViewController.m in Sources */,
@@ -473,6 +500,7 @@
 				D212EFA61E150CD40081AD2A /* MBProgressHUD.m in Sources */,
 				D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */,
 				D275A1BA1E1CEB9E00415FBC /* AddViewController.m in Sources */,
+				D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */,
 				D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */,
 				D28A65881E14D693000F6204 /* main.m in Sources */,
 			);
@@ -622,6 +650,7 @@
 			baseConfigurationReference = DABE54D1F9B62B986DF7307D /* Pods-xmpp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CYFB6JG5FT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -639,6 +668,7 @@
 			baseConfigurationReference = 09549F29EBC2C0FA07C36E80 /* Pods-xmpp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = CYFB6JG5FT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

@@ -12,6 +12,12 @@
 
 #define IMScreenWidth [UIScreen mainScreen].bounds.size.width
 #define IMScreenHeight [UIScreen mainScreen].bounds.size.height
-#define ArrayLazyLoad(x) if (!x) { x = [NSMutableArray new];}return x
+
+#define kXMPP_MESSAGE_CHANGE @"kXMPP_MESSAGE_CHANGE"
+
 #define LOCALHOST @"localhost"
+#define BGCOLOR [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1]
+
+#define ArrayLazyLoad(x) if (!x) { x = [NSMutableArray new];}return x
+
 #endif /* xmpp_pch */

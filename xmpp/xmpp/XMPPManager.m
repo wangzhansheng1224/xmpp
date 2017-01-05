@@ -11,26 +11,9 @@
 #import "NavViewController.h"
 #import "MessageViewController.h"
 #import "LoginViewController.h"
-//花名册
-#import "XMPPRosterCoreDataStorage.h"
-//消息
-#import "XMPPMessageArchivingCoreDataStorage.h"
-#import "XMPPAutoPing.h"
 
-typedef enum{
-    ConnectServerPurposeLogin,    //登录
-    ConnectServerPurposeRegister   //注册
-}ConnectServerPurpose;
+@interface XMPPManager()<XMPPStreamDelegate,XMPPRosterDelegate>
 
-@interface XMPPManager()
-@property(nonatomic)ConnectServerPurpose connectServerPurposeType;//用来标记连接服务器目的的属性
-@property(nonatomic, strong) XMPPStream * xmppStream;
-@property(nonatomic, strong) XMPPRosterCoreDataStorage * rosterStorage;//花名册存储
-@property(nonatomic, strong) XMPPRoster * roster;
-@property(nonatomic, strong) XMPPMessageArchivingCoreDataStorage *msgStorage;//消息存储
-@property(nonatomic, strong) XMPPMessageArchiving * msgModule;//消息模块
-@property(nonatomic, strong) XMPPAutoPing * xmppAutoPing;
-//用来记录用户输入的密码
 @property(nonatomic, copy) NSString *password;
 @property(nonatomic, strong) NSMutableArray *rosterArr;
 @end
@@ -78,14 +61,16 @@ typedef enum{
         [self.roster activate:self.xmppStream];
         //设置代理
         [self.roster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        //设置好友同步策略,XMPP一旦连接成功，同步好友到本地
+        [self.roster setAutoFetchRoster:YES]; //自动同步，从服务器取出好友
+        //关掉自动接收好友请求，默认开启自动同意
+        [self.roster setAutoAcceptKnownPresenceSubscriptionRequests:NO];
         
         
-        
-        //消息存储对象
-        self.msgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
-        self.msgModule = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:self.msgStorage];
-        [self.msgModule activate:self.xmppStream];
-        [self.msgModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        //4.消息模块，这里用单例，不能切换账号登录，否则会出现数据问题。
+        _xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+        _xmppMessageArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:_xmppMessageArchivingCoreDataStorage dispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 9)];
+        [_xmppMessageArchiving activate:self.xmppStream];
         
     }
     return self;
@@ -151,6 +136,7 @@ typedef enum{
     [self.xmppStream sendElement:presence];
     //断开链接
     [self.xmppStream disconnect];
+    [self.xmppStream removeDelegate:self];
     NSLog(@"断开连接");
     //清空好友列表
     _rosterArr=nil;
@@ -159,6 +145,8 @@ typedef enum{
     UIApplication *application = [UIApplication sharedApplication];
     application.keyWindow.rootViewController=nav;
 }
+
+
 
 #pragma mark xmppStream的代理方法
 //注册成功的方法
@@ -211,7 +199,7 @@ typedef enum{
     [self.xmppStream sendElement:presence];
     
     //开启服务监听(感觉没有多大用,可注释)
-    [self autoPingProxyServer:LOCALHOST];
+//    [self autoPingProxyServer:LOCALHOST];
     
     //跳转的messageviewcontroller
     NavViewController *nav=[[NavViewController alloc]initWithRootViewController:[[MessageViewController alloc]init]];
@@ -226,7 +214,26 @@ typedef enum{
     NSLog(@"验证失败的方法,请检查你的用户名或密码是否正确,%@",error);
 }
 
-#pragma mark xmppRoster的代理方法
+
+
+
+#pragma mark ===== 好友模块 委托=======
+#pragma mark 收到添加好友的请求
+- (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
+{
+    //取得好友状态
+    NSString *presenceType = [NSString stringWithFormat:@"%@", [presence type]]; //online/offline
+    //请求的用户
+    NSString *presenceFromUser =[NSString stringWithFormat:@"%@", [[presence from] user]];
+    NSLog(@"presenceType:%@",presenceType);
+    
+    NSLog(@"presence2:%@  sender2:%@",presence,sender);
+    
+    XMPPJID *jid = [XMPPJID jidWithString:presenceFromUser];
+    //接收添加好友请求
+    [self.roster acceptPresenceSubscriptionRequestFrom:jid andAddToRoster:YES];
+    
+}
 // 开始接收好友列表
 - (void)xmppRosterDidBeginPopulating:(XMPPRoster *)sender withVersion:(NSString *)version
 {
@@ -254,10 +261,11 @@ typedef enum{
     [self.rosterArr addObject:xmppjid];
 }
 
-- (NSMutableArray *)rosterArr
-{
+- (NSMutableArray *)rosterArr{
     ArrayLazyLoad(_rosterArr);
 }
+
+
 
 #pragma mark 接收消息
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
@@ -273,34 +281,35 @@ typedef enum{
 }
 
 #pragma mark 发送消息
-- (void)sendMessage:(NSString *) message toUser:(NSString *) user {
-    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-    [body setStringValue:message];
-    NSXMLElement *xiaoxi = [NSXMLElement elementWithName:@"message"];
-    [xiaoxi addAttributeWithName:@"type" stringValue:@"chat"];
-    NSString *to = [NSString stringWithFormat:@"%@@%@", user,LOCALHOST];
-    [xiaoxi addAttributeWithName:@"to" stringValue:to];
-    [xiaoxi addChild:body];
+- (void)sendMessage:(NSString *)message toUser:(XMPPJID *) user {
+    if (message.length < 1) {
+        return;
+    }
+    XMPPMessage *xiaoxi = [XMPPMessage messageWithType:@"chat" to:user];
+    [xiaoxi addBody:message];
     [self.xmppStream sendElement:xiaoxi];
 }
 
+
+
 #pragma mark 添加好友
-- (void)XMPPAddFriendSubscribe:(NSString *)name
-{
+- (void)XMPPAddFriendSubscribe:(NSString *)name{
+    
     XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
     [self.roster subscribePresenceToUser:jid];
 }
 
 #pragma mark 删除好友
-- (void)removeBuddy:(NSString *)name
-{
+- (void)removeBuddy:(NSString *)name{
+    
     XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
     [self.roster removeUser:jid];
 }
 
+
 #pragma mark 初始化并启动ping
--(void)autoPingProxyServer:(NSString*)strProxyServer
-{
+-(void)autoPingProxyServer:(NSString*)strProxyServer{
+    
     _xmppAutoPing = [[XMPPAutoPing alloc]init];
     [_xmppAutoPing activate:self.xmppStream];
     [_xmppAutoPing addDelegate:self delegateQueue:  dispatch_get_main_queue()];
@@ -311,6 +320,7 @@ typedef enum{
         _xmppAutoPing.targetJID = [XMPPJID jidWithString: strProxyServer ];//设置ping目标服务器，如果为nil,则监听socketstream当前连接上的那个服务器
     }
 }
+
 //卸载监听
 - (void)deallocxmppAutoPing{
     [_xmppAutoPing  deactivate];
@@ -333,4 +343,6 @@ typedef enum{
 {
     NSLog(@"- (void)xmppAutoPingDidTimeout:(XMPPAutoPing *)sender");
 }
+
+
 @end

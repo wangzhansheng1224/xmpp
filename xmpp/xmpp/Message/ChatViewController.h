@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ChatViewController : UIViewController
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, strong) XMPPJID *chatJID;
+
 @end

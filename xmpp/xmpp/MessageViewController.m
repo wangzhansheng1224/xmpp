@@ -75,7 +75,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ChatViewController *vc=[[ChatViewController alloc]init];
     XMPPJID *xmppjid=self.rosterArr[indexPath.row];
-    vc.name=xmppjid.user;
+    vc.chatJID=xmppjid;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

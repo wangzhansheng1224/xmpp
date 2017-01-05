@@ -483,6 +483,12 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
 			}
 		}
 	}];
+    
+    if (messageBody) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"kXMPP_MESSAGE_CHANGE" object:nil];
+        });
+    }
 }
 
 @end
