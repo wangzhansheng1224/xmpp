@@ -84,7 +84,6 @@
     if ([identifier isEqualToString:@"right"]) {
         RightTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"right" forIndexPath:indexPath];
         cell.RightLabel.text=message.body;
-        cell.RightLabel.text=message.body;
         CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
         cell.MessageRightWidth.constant=titleSize.width+25;
         return cell;

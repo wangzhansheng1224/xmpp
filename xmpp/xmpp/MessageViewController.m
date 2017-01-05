@@ -10,6 +10,7 @@
 #import "XMPPManager.h"
 #import "ChatViewController.h"
 #import "AddViewController.h"
+#import "UserTableViewCell.h"
 
 @interface MessageViewController ()<UITableViewDelegate,UITableViewDataSource,XMPPManagerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -17,17 +18,28 @@
 @end
 
 @implementation MessageViewController
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        [self initnavigation];
+        [self.view addSubview:self.tableView];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rosterChange) name:kXMPP_ROSTER_CHANGE object:nil];
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initnavigation];
-    [self.view addSubview:self.tableView];
-    //创建代理
-    [XMPPManager defaultManager].delegate=self;
-    
-    // Do any additional setup after loading the view.
 }
 
+- (void)rosterChange
+{
+    //从存储器中取出我得好友数组，更新数据源
+    self.rosterArr = [NSMutableArray arrayWithArray:[XMPPManager defaultManager].xmppRosterMemoryStorage.unsortedUsers];
+    [self.tableView reloadData];
+    
+}
 - (void)initnavigation{
     self.view.backgroundColor=[UIColor greenColor];
     self.title=@"通讯录";
@@ -43,6 +55,7 @@
 - (void)leftClick{
     //添加好友
     AddViewController *addVC=[[AddViewController alloc]init];
+    addVC.hidesBottomBarWhenPushed=YES;
     [self.navigationController pushViewController:addVC animated:YES];
 }
 
@@ -51,9 +64,33 @@
         _tableView=[[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
+        _tableView.backgroundColor=BGCOLOR;
         _tableView.tableFooterView=[[UIView alloc]init];
+        _tableView.rowHeight=60;
+        //分割符边距
+        self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        [_tableView registerNib:[UINib nibWithNibName:@"UserTableViewCell" bundle:nil] forCellReuseIdentifier:@"user"];
     }
     return _tableView;
+}
+
+//先要设Cell可编辑(那几行可编辑)
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    //设置删除按钮
+    UITableViewRowAction *deleteRowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action,NSIndexPath *indexPath) {
+        
+        XMPPUserMemoryStorageObject *user = self.rosterArr[indexPath.row];
+        [[XMPPManager defaultManager]removeBuddy:user.jid.user];
+        
+    }];
+    
+    NSArray *resultArray=@[deleteRowAction];
+    return  resultArray;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -61,21 +98,25 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier=@"Cell";
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    UserTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"user" forIndexPath:indexPath];
+    XMPPUserMemoryStorageObject *user = self.rosterArr[indexPath.row];
+    cell.FriendNameLabel.text=user.jid.user;
+    if ([user isOnline]) {
+        cell.StateLabel.text=@"[在线]";
+        cell.StateLabel.textColor=[UIColor colorWithRed:25/255.0 green:210/255.0 blue:33/255.0 alpha:1];
+    }else{
+        cell.StateLabel.text=@"[离线]";
+        cell.StateLabel.textColor=[UIColor grayColor];
     }
-    XMPPJID *xmppjid=self.rosterArr[indexPath.row];
-    cell.textLabel.text=xmppjid.user;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ChatViewController *vc=[[ChatViewController alloc]init];
-    XMPPJID *xmppjid=self.rosterArr[indexPath.row];
-    vc.chatJID=xmppjid;
+    vc.hidesBottomBarWhenPushed=YES;
+    XMPPUserMemoryStorageObject *user = self.rosterArr[indexPath.row];
+    vc.chatJID=user.jid;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

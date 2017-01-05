@@ -14,6 +14,7 @@
 #define IMScreenHeight [UIScreen mainScreen].bounds.size.height
 
 #define kXMPP_MESSAGE_CHANGE @"kXMPP_MESSAGE_CHANGE"
+#define kXMPP_ROSTER_CHANGE @"kXMPP_ROSTER_CHANGE"
 
 #define LOCALHOST @"localhost"
 #define BGCOLOR [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1]

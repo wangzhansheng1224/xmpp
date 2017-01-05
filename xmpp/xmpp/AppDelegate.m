@@ -7,16 +7,20 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginViewController.h"
 #import "NavViewController.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
+
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    //真机停顿两秒
+#if !TARGET_IPHONE_SIMULATOR
+    [NSThread sleepForTimeInterval:2.0];
+#endif
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
     self.window.rootViewController = [[NavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
@@ -25,6 +29,7 @@
 
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

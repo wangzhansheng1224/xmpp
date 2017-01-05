@@ -11,6 +11,10 @@
 		D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */; };
 		D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */; };
 		D20D1DD21E1DE7E3006B201B /* RightTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */; };
+		D20D1DDA1E1E31CB006B201B /* UserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DD81E1E31CB006B201B /* UserTableViewCell.m */; };
+		D20D1DDB1E1E31CB006B201B /* UserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DD91E1E31CB006B201B /* UserTableViewCell.xib */; };
+		D20D1DE01E1E520D006B201B /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DDF1E1E520D006B201B /* GroupViewController.m */; };
+		D20D1DE31E1E53DD006B201B /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DE21E1E53DD006B201B /* TabBarViewController.m */; };
 		D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EF8F1E14EE700081AD2A /* MessageViewController.m */; };
 		D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EF9C1E150BAE0081AD2A /* GOInfoInputView.m */; };
 		D212EFA61E150CD40081AD2A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFA11E150CD40081AD2A /* MBProgressHUD.m */; };
@@ -25,7 +29,6 @@
 		D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A658A1E14D693000F6204 /* AppDelegate.m */; };
 		D28A65911E14D693000F6204 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28A658F1E14D693000F6204 /* Main.storyboard */; };
 		D28A65931E14D693000F6204 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D28A65921E14D693000F6204 /* Assets.xcassets */; };
-		D28A65961E14D693000F6204 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28A65941E14D693000F6204 /* LaunchScreen.storyboard */; };
 		D28A65A11E14D694000F6204 /* xmppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65A01E14D694000F6204 /* xmppTests.m */; };
 		D28A65AC1E14D694000F6204 /* xmppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65AB1E14D694000F6204 /* xmppUITests.m */; };
 		D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65BA1E14DA34000F6204 /* LoginViewController.m */; };
@@ -59,6 +62,13 @@
 		D20D1DCE1E1DE7E3006B201B /* RightTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightTableViewCell.h; sourceTree = "<group>"; };
 		D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightTableViewCell.m; sourceTree = "<group>"; };
 		D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightTableViewCell.xib; sourceTree = "<group>"; };
+		D20D1DD71E1E31CB006B201B /* UserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTableViewCell.h; sourceTree = "<group>"; };
+		D20D1DD81E1E31CB006B201B /* UserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTableViewCell.m; sourceTree = "<group>"; };
+		D20D1DD91E1E31CB006B201B /* UserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserTableViewCell.xib; sourceTree = "<group>"; };
+		D20D1DDE1E1E520D006B201B /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		D20D1DDF1E1E520D006B201B /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		D20D1DE11E1E53DD006B201B /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		D20D1DE21E1E53DD006B201B /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		D212EF8E1E14EE700081AD2A /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageViewController.h; path = xmpp/MessageViewController.h; sourceTree = SOURCE_ROOT; };
 		D212EF8F1E14EE700081AD2A /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageViewController.m; path = xmpp/MessageViewController.m; sourceTree = SOURCE_ROOT; };
 		D212EF9B1E150BAE0081AD2A /* GOInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GOInfoInputView.h; path = ../GOInfoInputView.h; sourceTree = "<group>"; };
@@ -71,8 +81,8 @@
 		D212EFA91E150D5F0081AD2A /* xmpp.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xmpp.pch; sourceTree = "<group>"; };
 		D212EFAA1E1511DF0081AD2A /* UIView+PPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+PPCategory.h"; path = "../UIView+PPCategory.h"; sourceTree = "<group>"; };
 		D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+PPCategory.m"; path = "../UIView+PPCategory.m"; sourceTree = "<group>"; };
-		D212EFB91E151A870081AD2A /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavViewController.h; path = ../NavViewController.h; sourceTree = "<group>"; };
-		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavViewController.m; path = ../NavViewController.m; sourceTree = "<group>"; };
+		D212EFB91E151A870081AD2A /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
+		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
 		D275A1AF1E1B512B00415FBC /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		D275A1B01E1B512B00415FBC /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		D275A1B51E1CDAA900415FBC /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatViewController.h; path = ../Message/ChatViewController.h; sourceTree = "<group>"; };
@@ -85,7 +95,6 @@
 		D28A658A1E14D693000F6204 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D28A65901E14D693000F6204 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D28A65921E14D693000F6204 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D28A65951E14D693000F6204 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D28A65971E14D693000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28A659C1E14D694000F6204 /* xmppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D28A65A01E14D694000F6204 /* xmppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xmppTests.m; sourceTree = "<group>"; };
@@ -139,6 +148,15 @@
 				D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		D20D1DDD1E1E51D0006B201B /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				D20D1DDE1E1E520D006B201B /* GroupViewController.h */,
+				D20D1DDF1E1E520D006B201B /* GroupViewController.m */,
+			);
+			path = Group;
 			sourceTree = "<group>";
 		};
 		D212EF9E1E150C840081AD2A /* Library */ = {
@@ -201,14 +219,17 @@
 				D2E75C541E162FA000B81CA2 /* ViewController.m */,
 				D275A1AF1E1B512B00415FBC /* XMPPManager.h */,
 				D275A1B01E1B512B00415FBC /* XMPPManager.m */,
+				D20D1DE11E1E53DD006B201B /* TabBarViewController.h */,
+				D20D1DE21E1E53DD006B201B /* TabBarViewController.m */,
+				D212EFB91E151A870081AD2A /* NavViewController.h */,
+				D212EFBA1E151A870081AD2A /* NavViewController.m */,
+				D2E75C521E162F7600B81CA2 /* Message */,
+				D20D1DDD1E1E51D0006B201B /* Group */,
 				D20D1DC51E1DE55A006B201B /* Chat */,
 				D2E75C501E162F2100B81CA2 /* Login */,
-				D2E75C4F1E162EFF00B81CA2 /* Navigaion */,
-				D2E75C521E162F7600B81CA2 /* Message */,
 				D212EF9E1E150C840081AD2A /* Library */,
 				D28A658F1E14D693000F6204 /* Main.storyboard */,
 				D28A65921E14D693000F6204 /* Assets.xcassets */,
-				D28A65941E14D693000F6204 /* LaunchScreen.storyboard */,
 				D28A65971E14D693000F6204 /* Info.plist */,
 				D212EFA91E150D5F0081AD2A /* xmpp.pch */,
 				D28A65861E14D693000F6204 /* Supporting Files */,
@@ -242,16 +263,6 @@
 			path = xmppUITests;
 			sourceTree = "<group>";
 		};
-		D2E75C4F1E162EFF00B81CA2 /* Navigaion */ = {
-			isa = PBXGroup;
-			children = (
-				D212EFB91E151A870081AD2A /* NavViewController.h */,
-				D212EFBA1E151A870081AD2A /* NavViewController.m */,
-			);
-			name = Navigaion;
-			path = "导航栏";
-			sourceTree = "<group>";
-		};
 		D2E75C501E162F2100B81CA2 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +288,9 @@
 			children = (
 				D212EF8E1E14EE700081AD2A /* MessageViewController.h */,
 				D212EF8F1E14EE700081AD2A /* MessageViewController.m */,
+				D20D1DD71E1E31CB006B201B /* UserTableViewCell.h */,
+				D20D1DD81E1E31CB006B201B /* UserTableViewCell.m */,
+				D20D1DD91E1E31CB006B201B /* UserTableViewCell.xib */,
 				D275A1B81E1CEB9E00415FBC /* AddViewController.h */,
 				D275A1B91E1CEB9E00415FBC /* AddViewController.m */,
 			);
@@ -370,7 +384,6 @@
 				TargetAttributes = {
 					D28A65821E14D693000F6204 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = CYFB6JG5FT;
 						ProvisioningStyle = Automatic;
 					};
 					D28A659B1E14D694000F6204 = {
@@ -412,7 +425,7 @@
 			files = (
 				D20D1DD21E1DE7E3006B201B /* RightTableViewCell.xib in Resources */,
 				D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */,
-				D28A65961E14D693000F6204 /* LaunchScreen.storyboard in Resources */,
+				D20D1DDB1E1E31CB006B201B /* UserTableViewCell.xib in Resources */,
 				D212EFA81E150CD40081AD2A /* MBProgressHUD.bundle in Resources */,
 				D28A65931E14D693000F6204 /* Assets.xcassets in Resources */,
 				D28A65911E14D693000F6204 /* Main.storyboard in Resources */,
@@ -488,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D20D1DDA1E1E31CB006B201B /* UserTableViewCell.m in Sources */,
 				D20D1DCC1E1DE5A9006B201B /* LeftTableViewCell.m in Sources */,
 				D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */,
 				D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */,
@@ -496,12 +510,14 @@
 				D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */,
 				D275A1B11E1B512B00415FBC /* XMPPManager.m in Sources */,
 				D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */,
+				D20D1DE01E1E520D006B201B /* GroupViewController.m in Sources */,
 				D2E75C551E162FA000B81CA2 /* ViewController.m in Sources */,
 				D212EFA61E150CD40081AD2A /* MBProgressHUD.m in Sources */,
 				D28A658B1E14D693000F6204 /* AppDelegate.m in Sources */,
 				D275A1BA1E1CEB9E00415FBC /* AddViewController.m in Sources */,
 				D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */,
 				D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */,
+				D20D1DE31E1E53DD006B201B /* TabBarViewController.m in Sources */,
 				D28A65881E14D693000F6204 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,14 +560,6 @@
 				D28A65901E14D693000F6204 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D28A65941E14D693000F6204 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D28A65951E14D693000F6204 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -652,7 +660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = CYFB6JG5FT;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xmpp/xmpp.pch;
 				INFOPLIST_FILE = xmpp/Info.plist;
@@ -670,7 +678,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = CYFB6JG5FT;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = xmpp/xmpp.pch;
 				INFOPLIST_FILE = xmpp/Info.plist;

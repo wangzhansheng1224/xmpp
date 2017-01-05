@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="51" id="KGk-i7-Jjw" customClass="UserTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="396" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="396" height="59"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wechat" translatesAutoresizingMaskIntoConstraints="NO" id="UhX-YM-fXv">
+                        <rect key="frame" x="10" y="10" width="40" height="39.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="yVG-yI-usi"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="好友名字" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mf-mP-Jjq">
+                        <rect key="frame" x="60" y="18" width="246" height="23.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="状态" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXv-Y4-Xf0">
+                        <rect key="frame" x="316" y="10" width="70" height="39.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="JlX-e4-z4s"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="tXv-Y4-Xf0" secondAttribute="trailing" constant="10" id="DTZ-se-kfF"/>
+                    <constraint firstItem="5mf-mP-Jjq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="JpL-EA-uW4"/>
+                    <constraint firstItem="UhX-YM-fXv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UW2-6P-Clc"/>
+                    <constraint firstAttribute="bottom" secondItem="UhX-YM-fXv" secondAttribute="bottom" constant="10" id="Yld-Ar-omV"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="5mf-mP-Jjq" secondAttribute="bottom" constant="10" id="ewS-tk-7J9"/>
+                    <constraint firstAttribute="bottom" secondItem="tXv-Y4-Xf0" secondAttribute="bottom" constant="10" id="jp6-86-zdE"/>
+                    <constraint firstItem="tXv-Y4-Xf0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="pj8-Gi-ray"/>
+                    <constraint firstItem="tXv-Y4-Xf0" firstAttribute="leading" secondItem="5mf-mP-Jjq" secondAttribute="trailing" constant="10" id="qDU-y3-j62"/>
+                    <constraint firstItem="UhX-YM-fXv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="taI-7h-RTM"/>
+                    <constraint firstItem="5mf-mP-Jjq" firstAttribute="leading" secondItem="UhX-YM-fXv" secondAttribute="trailing" constant="10" id="zs0-Ce-vh2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="FriendNameLabel" destination="5mf-mP-Jjq" id="uOW-Ug-Ski"/>
+                <outlet property="StateLabel" destination="tXv-Y4-Xf0" id="Lb9-8n-9Je"/>
+            </connections>
+            <point key="canvasLocation" x="59" y="145.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="wechat" width="57" height="57"/>
+    </resources>
+</document>

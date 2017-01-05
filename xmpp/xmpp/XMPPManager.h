@@ -12,6 +12,8 @@
 //消息
 #import "XMPPMessageArchivingCoreDataStorage.h"
 #import "XMPPAutoPing.h"
+#import "XMPPRosterMemoryStorage.h"  //遵循 XMPPRosterStorage接口
+#import "XMPPUserMemoryStorageObject.h" //遵循 XMPPUser接口
 
 typedef enum{
     ConnectServerPurposeLogin,    //登录
@@ -27,11 +29,12 @@ typedef enum{
 @property(nonatomic,weak)id<XMPPManagerDelegate>delegate;
 @property(nonatomic)ConnectServerPurpose connectServerPurposeType;//用来标记连接服务器目的的属性
 @property(nonatomic, strong) XMPPStream * xmppStream;
-@property(nonatomic, strong) XMPPRosterCoreDataStorage * rosterStorage;//花名册存储
-@property(nonatomic, strong) XMPPRoster * roster;
+@property(nonatomic, strong) XMPPRosterMemoryStorage *xmppRosterMemoryStorage;//花名册存储
+@property(nonatomic, strong) XMPPRoster * xmppRoster;
 @property(nonatomic, strong) XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingCoreDataStorage;//消息存储
 @property(nonatomic, strong) XMPPMessageArchiving * xmppMessageArchiving;//消息模块
 @property(nonatomic, strong) XMPPAutoPing * xmppAutoPing;
+
 //用来记录用户输入的密码
 //单例方法
 +(XMPPManager *)defaultManager;

@@ -9,8 +9,8 @@
 #import "XMPPManager.h"
 #import "AppDelegate.h"
 #import "NavViewController.h"
-#import "MessageViewController.h"
 #import "LoginViewController.h"
+#import "TabBarViewController.h"
 
 @interface XMPPManager()<XMPPStreamDelegate,XMPPRosterDelegate>
 
@@ -44,27 +44,18 @@
         
         
         
-        //花名册
-        // xmpp为我们提供了一个CoreData存储器
-        self.rosterStorage = [XMPPRosterCoreDataStorage sharedInstance];
+        // 3.好友模块 支持我们管理、同步、申请、删除好友
+        _xmppRosterMemoryStorage = [[XMPPRosterMemoryStorage alloc] init];
+        _xmppRoster = [[XMPPRoster alloc] initWithRosterStorage:_xmppRosterMemoryStorage];
+        [_xmppRoster activate:self.xmppStream];
         
-        // 创建roster 花名册时，需要给花名册指定一个数据存储的地方（就是XMPPRosterCoreDataStorage）
-        
-        self.roster = [[XMPPRoster alloc] initWithRosterStorage:self.rosterStorage dispatchQueue:dispatch_get_main_queue()];
-        
-        // 在通讯管道中激活花名册
-        
-        // 这时就可以通过通讯管道去给服务器发送请求了。
-        
-        // 然后roster的消息都通过stream间接的发给服务器
-        
-        [self.roster activate:self.xmppStream];
-        //设置代理
-        [self.roster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        //同时给_xmppRosterMemoryStorage 和 _xmppRoster都添加了代理
+        [_xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
         //设置好友同步策略,XMPP一旦连接成功，同步好友到本地
-        [self.roster setAutoFetchRoster:YES]; //自动同步，从服务器取出好友
+        [_xmppRoster setAutoFetchRoster:YES]; //自动同步，从服务器取出好友
         //关掉自动接收好友请求，默认开启自动同意
-        [self.roster setAutoAcceptKnownPresenceSubscriptionRequests:NO];
+        [_xmppRoster setAutoAcceptKnownPresenceSubscriptionRequests:NO];
+       
         
         
         //4.消息模块，这里用单例，不能切换账号登录，否则会出现数据问题。
@@ -201,10 +192,8 @@
 //    [self autoPingProxyServer:LOCALHOST];
     
     //跳转的messageviewcontroller
-    NavViewController *nav=[[NavViewController alloc]initWithRootViewController:[[MessageViewController alloc]init]];
     UIApplication *application = [UIApplication sharedApplication];
-    application.keyWindow.rootViewController=nav;
-    
+    [application.keyWindow setRootViewController:[[TabBarViewController alloc]init]];
 }
 
 //验证失败的方法
@@ -230,7 +219,7 @@
     
     XMPPJID *jid = [XMPPJID jidWithString:presenceFromUser];
     //接收添加好友请求
-    [self.roster acceptPresenceSubscriptionRequestFrom:jid andAddToRoster:YES];
+    [_xmppRoster acceptPresenceSubscriptionRequestFrom:jid andAddToRoster:YES];
     
 }
 // 开始接收好友列表
@@ -247,6 +236,7 @@
     if ([self.delegate respondsToSelector:@selector(sendRosterArr:)]) {
         [self.delegate sendRosterArr:self.rosterArr];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_ROSTER_CHANGE object:nil];
     
 }
 
@@ -264,6 +254,11 @@
     ArrayLazyLoad(_rosterArr);
 }
 
+// 如果不是初始化同步来的roster,那么会自动存入我的好友存储器
+- (void)xmppRosterDidChange:(XMPPRosterMemoryStorage *)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_ROSTER_CHANGE object:nil];
+}
 
 
 #pragma mark 接收消息
@@ -295,14 +290,14 @@
 - (void)XMPPAddFriendSubscribe:(NSString *)name{
     
     XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
-    [self.roster subscribePresenceToUser:jid];
+    [_xmppRoster subscribePresenceToUser:jid];
 }
 
 #pragma mark 删除好友
 - (void)removeBuddy:(NSString *)name{
     
     XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
-    [self.roster removeUser:jid];
+    [_xmppRoster removeUser:jid];
 }
 
 

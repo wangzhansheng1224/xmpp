@@ -7,8 +7,6 @@
 //
 
 #import "LoginViewController.h"
-#import "NavViewController.h"
-#import "MessageViewController.h"
 #import "GOInfoInputView.h"
 #import "UIView+PPCategory.h"
 #import "MBProgressHUD+FX.h"
