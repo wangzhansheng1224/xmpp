@@ -18,9 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //真机停顿两秒
-#if !TARGET_IPHONE_SIMULATOR
-    [NSThread sleepForTimeInterval:2.0];
-#endif
+//#if !TARGET_IPHONE_SIMULATOR
+//    [NSThread sleepForTimeInterval:2.0];
+//#endif
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
     self.window.rootViewController = [[NavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];

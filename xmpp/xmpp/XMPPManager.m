@@ -39,6 +39,8 @@
         
         //初始化xmppStream，登录和注册的时候都会用到它
         self.xmppStream = [[XMPPStream alloc]init];
+        self.xmppStream.hostName=kXMPP_HOST;
+//        self.xmppStream.hostPort=kXMPP_PORT;
         //设置代理
         [self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
         
@@ -66,6 +68,7 @@
     }
     return self;
 }
+
 
 #pragma mark - 用户登录
 -(void)loginwithName:(NSString *)userName andPassword:(NSString *)password andFuwuqi:(NSString *)fuwuqi
@@ -113,13 +116,13 @@
         [self logout];
     }
     NSError *error = nil;
-    [self.xmppStream connectWithTimeout:30.0f error:&error];
+    [self.xmppStream connectWithTimeout:5 error:&error];
     if (error) {
         NSLog(@"error = %@",error);
     }
 }
 
-#pragma mark 注销方法的实现
+#pragma mark 注销的方法
 -(void)logout{
     //表示离线不可用
     XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
@@ -151,11 +154,19 @@
     NSLog(@"注册失败执行的方法");
 }
 
+
 //连接服务器失败的方法
 -(void)xmppStreamConnectDidTimeout:(XMPPStream *)sender
 {
     NSLog(@"连接服务器失败的方法，请检查网络是否正常");
 }
+- (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
+{
+    NSLog(@"连接服务器失败的方法，请检查网络或服务器地址是否正常");
+    NSLog(@"%@",error.localizedDescription);
+    
+}
+
 
 //连接服务器成功的方法
 -(void)xmppStreamDidConnect:(XMPPStream *)sender
@@ -185,11 +196,13 @@
      away  离开
      do not disturb 忙碌
      */
+    // 发送一个<presence/> 默认值avaliable 在线 是指服务器收到空的presence 会认为是这个
+    // status ---自定义的内容，可以是任何的。
+    // show 是固定的，有几种类型 dnd、xa、away、chat，在方法XMPPPresence 的intShow中可以看到
     XMPPPresence *presence = [XMPPPresence presenceWithType:@"available"];
+//    [presence addChild:[DDXMLNode elementWithName:@"status" stringValue:@"我现在很忙"]];
+//    [presence addChild:[DDXMLNode elementWithName:@"show" stringValue:@"xa"]];
     [self.xmppStream sendElement:presence];
-    
-    //开启服务监听(感觉没有多大用,可注释)
-//    [self autoPingProxyServer:LOCALHOST];
     
     //跳转的messageviewcontroller
     UIApplication *application = [UIApplication sharedApplication];
@@ -209,19 +222,35 @@
 #pragma mark 收到添加好友的请求
 - (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
 {
-    //取得好友状态
-    NSString *presenceType = [NSString stringWithFormat:@"%@", [presence type]]; //online/offline
-    //请求的用户
-    NSString *presenceFromUser =[NSString stringWithFormat:@"%@", [[presence from] user]];
-    NSLog(@"presenceType:%@",presenceType);
-    
-    NSLog(@"presence2:%@  sender2:%@",presence,sender);
-    
-    XMPPJID *jid = [XMPPJID jidWithString:presenceFromUser];
-    //接收添加好友请求
-    [_xmppRoster acceptPresenceSubscriptionRequestFrom:jid andAddToRoster:YES];
+    [_xmppRoster acceptPresenceSubscriptionRequestFrom:presence.from andAddToRoster:YES];
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message: [NSString stringWithFormat:@"【%@】想加你为好友",presence.from.bare] preferredStyle:UIAlertControllerStyleAlert];
+//    
+//    //同意添加好友
+//    UIAlertAction *acceptAction=[UIAlertAction actionWithTitle:@"接受" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [_xmppRoster acceptPresenceSubscriptionRequestFrom:presence.from andAddToRoster:YES];
+//    }];
+//    [alert addAction:acceptAction];
+//    
+//    //拒绝添加好友
+//    UIAlertAction *rejectAction=[UIAlertAction actionWithTitle:@"拒绝" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        [self.xmppRoster rejectPresenceSubscriptionRequestFrom:presence.from];
+//    }];
+//    [alert addAction:rejectAction];
+//    
+//    UIApplication *application=[UIApplication sharedApplication];
+//    [application.keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
     
 }
+//
+//- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
+//{
+//    //收到对方取消定阅我得消息
+//    if ([presence.type isEqualToString:@"unsubscribe"]) {
+//        //从我的本地通讯录中将他移除
+//        [self.xmppRoster removeUser:presence.from];
+//    }
+//}
+
 // 开始接收好友列表
 - (void)xmppRosterDidBeginPopulating:(XMPPRoster *)sender withVersion:(NSString *)version
 {
@@ -260,6 +289,21 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_ROSTER_CHANGE object:nil];
 }
 
+#pragma mark 添加好友
+- (void)XMPPAddFriendSubscribe:(NSString *)name{
+    
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,KXMPP_DOMIN]];
+    [_xmppRoster subscribePresenceToUser:jid];
+}
+
+#pragma mark 删除好友
+- (void)removeBuddy:(NSString *)name{
+    
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,KXMPP_DOMIN]];
+    [_xmppRoster removeUser:jid];
+}
+
+
 
 #pragma mark 接收消息
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
@@ -268,7 +312,7 @@
     NSString *from = [[message attributeForName:@"from"] stringValue];
     //    NSLog(@"%@\n%@",from,messageBody);
     if (messageBody) {
-        NSRange range=[from rangeOfString:[NSString stringWithFormat:@"@%@",LOCALHOST]];
+        NSRange range=[from rangeOfString:[NSString stringWithFormat:@"@%@",KXMPP_DOMIN]];
         from=[from substringToIndex:range.location];
         NSLog(@"%@发来消息,内容为:%@",from,messageBody);
     }
@@ -286,19 +330,6 @@
 
 
 
-#pragma mark 添加好友
-- (void)XMPPAddFriendSubscribe:(NSString *)name{
-    
-    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
-    [_xmppRoster subscribePresenceToUser:jid];
-}
-
-#pragma mark 删除好友
-- (void)removeBuddy:(NSString *)name{
-    
-    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,LOCALHOST]];
-    [_xmppRoster removeUser:jid];
-}
 
 
 #pragma mark 初始化并启动ping

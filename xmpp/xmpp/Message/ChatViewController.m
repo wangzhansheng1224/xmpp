@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UIView *ToolBarView;
 /** 聊天记录*/
 @property (nonatomic, strong) NSMutableArray *chatHistory;
-
+@property (nonatomic, assign) BOOL isup;
 @end
 
 @implementation ChatViewController
@@ -35,6 +35,8 @@
 - (void)addNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getChatHistory) name:kXMPP_MESSAGE_CHANGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillSHow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (UIView *)ToolBarView{
@@ -65,13 +67,22 @@
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.backgroundColor=BGCOLOR;
+        //消除分割线
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableFooterView=[[UIView alloc]init];
         [_tableView registerNib:[UINib nibWithNibName:@"LeftTableViewCell" bundle:nil] forCellReuseIdentifier:@"left"];
         [_tableView registerNib:[UINib nibWithNibName:@"RightTableViewCell" bundle:nil] forCellReuseIdentifier:@"right"];
+        //点击隐藏输入框
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyBoard)];
+        [_tableView addGestureRecognizer:tapGesture];
         _tableView.rowHeight=70;
     }
     return _tableView;
+}
+
+- (void)hideKeyBoard
+{
+    [self.view endEditing:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -86,14 +97,17 @@
         cell.RightLabel.text=message.body;
         CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
         cell.MessageRightWidth.constant=titleSize.width+25;
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
         return cell;
     }else{
         LeftTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"left" forIndexPath:indexPath];
         cell.LeftLabel.text=message.body;
         CGSize titleSize = [message.body sizeWithFont:cell.LeftLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
         cell.LeftMessageWidth.constant=titleSize.width+25;
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
         return cell;
     }
+    
 }
 - (void)getChatHistory
 {
@@ -134,6 +148,59 @@
     [[XMPPManager defaultManager]sendMessage:_tf.text toUser:self.chatJID];
     _tf.text=@"";
     [self tableViewScrollToBottom];
+}
+
+- (void)keyboardWillSHow:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    CGSize size = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    NSNumber *duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    
+    [UIView animateWithDuration:duration.doubleValue animations:^{
+        _ToolBarView.transform = CGAffineTransformMakeTranslation(0, -size.height);
+        if (self.chatHistory.count>=6) {
+            if (self.chatHistory.count>=9) {
+                 _tableView.transform = CGAffineTransformMakeTranslation(0, -size.height);
+            }else{
+                 _tableView.transform = CGAffineTransformMakeTranslation(0, -size.height+(9-self.chatHistory.count)*70);
+            }
+            
+            _isup=1;
+            
+        }else{
+            CGRect rect = _tableView.frame;
+            rect.size.height = IMScreenHeight-50-size.height-64;
+            _tableView.frame = rect;
+            [self tableViewScrollToBottom];
+        }
+       
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    NSNumber *duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    
+    [UIView animateWithDuration:duration.doubleValue animations:^{
+        _ToolBarView.transform = CGAffineTransformIdentity;
+        if (_isup) {
+            _tableView.transform = CGAffineTransformIdentity;
+        }else{
+            CGRect rect = _tableView.frame;
+            rect.size.height = IMScreenHeight-50-64;
+            _tableView.frame = rect;
+            
+        }
+    }];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kXMPP_MESSAGE_CHANGE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 @end

@@ -10,13 +10,19 @@
 #define xmpp_pch
 #import "XMPP.h"
 
+
+#define kXMPP_HOST  @"10.18.20.158"
+#define kXMPP_PORT  5222
+#define KXMPP_DOMIN @"localhost"
+
 #define IMScreenWidth [UIScreen mainScreen].bounds.size.width
 #define IMScreenHeight [UIScreen mainScreen].bounds.size.height
 
 #define kXMPP_MESSAGE_CHANGE @"kXMPP_MESSAGE_CHANGE"
 #define kXMPP_ROSTER_CHANGE @"kXMPP_ROSTER_CHANGE"
 
-#define LOCALHOST @"localhost"
+
+
 #define BGCOLOR [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1]
 
 #define ArrayLazyLoad(x) if (!x) { x = [NSMutableArray new];}return x

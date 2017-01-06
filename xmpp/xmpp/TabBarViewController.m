@@ -33,6 +33,7 @@
     
     self.tabBar.selectedImageTintColor = [UIColor colorWithRed:25/255.0 green:180/255.0 blue:33/255.0 alpha:1];
     self.tabBar.barTintColor=[UIColor whiteColor];
+    
     // Do any additional setup after loading the view.
 }
 

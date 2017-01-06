@@ -31,7 +31,7 @@
     [self creatUI];
     _usrNameInputView.textField.text=@"test001";
     _passwordInputView.textField.text=@"1";
-    _fuwuqiInputView.textField.text=LOCALHOST;
+    _fuwuqiInputView.textField.text=KXMPP_DOMIN;
 }
 
 - (void)creatUI{
@@ -67,6 +67,7 @@
     _passwordInputView.center = CGPointMake(topCenter.x, topCenter.y + deltaY);
     _passwordInputView.textField.returnKeyType = UIReturnKeyNext;
     _passwordInputView.textField.secureTextEntry = YES;
+    _passwordInputView.textField.keyboardType = UIKeyboardTypeEmailAddress;
     _passwordInputView.textField.delegate = self;
     [_passwordInputView showPwdBtnShow];
     [_passwordInputView setCornerDirection:UIRectCornerAllCorners];
