@@ -65,6 +65,13 @@
         _xmppMessageArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:_xmppMessageArchivingCoreDataStorage dispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 9)];
         [_xmppMessageArchiving activate:self.xmppStream];
         
+        //5组群模块
+        _xmppRoomStorage  = [XMPPRoomCoreDataStorage sharedInstance];
+        XMPPJID *roomJID = [XMPPJID jidWithString:@"一群人聊天"];
+        _xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:_xmppRoomStorage jid:roomJID];
+        [_xmppRoom activate:_xmppStream];
+        [_xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        
     }
     return self;
 }
@@ -88,7 +95,7 @@
     // *  创建xmppjid（用户）
     // *  @param NSString 用户名，域名，登录服务器的方式（苹果，安卓等）
     
-    XMPPJID *jid = [XMPPJID jidWithUser:userName domain:fuwuqi resource:@"iPhone8"];
+    XMPPJID *jid = [XMPPJID jidWithUser:userName domain:fuwuqi resource:kXMPP_RESOURCE];
     self.xmppStream.myJID = jid;
     //连接到服务器
     [self connectToServer];
@@ -369,5 +376,14 @@
     NSLog(@"- (void)xmppAutoPingDidTimeout:(XMPPAutoPing *)sender");
 }
 
+//-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID{
+
+//}
+//接收到消息
+//
+//在该方法中调用代理方法
+-(void)newMessageReceived:(NSDictionary *)message{
+    
+}
 
 @end

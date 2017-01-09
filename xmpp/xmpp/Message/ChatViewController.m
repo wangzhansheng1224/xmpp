@@ -11,13 +11,14 @@
 #import "LeftTableViewCell.h"
 #import "RightTableViewCell.h"
 
-@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong) UITextField *tf;
+@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *ToolBarView;
+@property (nonatomic, strong) UITextField *tf;
+//切换键盘
+@property (nonatomic, strong) UIButton *changeKeyBoardButton;
 /** 聊天记录*/
 @property (nonatomic, strong) NSMutableArray *chatHistory;
-@property (nonatomic, assign) BOOL isup;
 @end
 
 @implementation ChatViewController
@@ -26,8 +27,8 @@
     [super viewDidLoad];
     self.title=self.chatJID.user;
     
-    [self.view addSubview:self.ToolBarView];
     [self.view addSubview:self.tableView];
+    [self.view addSubview:self.ToolBarView];
     [self getChatHistory];
     [self addNotifications];
 }
@@ -50,20 +51,33 @@
         _tf.layer.borderColor=[UIColor blackColor].CGColor;
         _tf.layer.cornerRadius=5;
         _tf.layer.masksToBounds=YES;
+        _tf.delegate=self;
+        _tf.returnKeyType = UIReturnKeySend;
         [_ToolBarView addSubview:_tf];
         
-        UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(340, 10, 60, 30)];
-        btn.backgroundColor=[UIColor redColor];
-        [btn setTitle:@"发送" forState:UIControlStateNormal];
-        [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
-        [_ToolBarView addSubview:btn];
+        _changeKeyBoardButton = [[UIButton alloc] initWithFrame:CGRectMake(350, 10, 30, 30)];
+        [_changeKeyBoardButton setBackgroundImage:[UIImage imageNamed:@"xiaonie_icon"] forState:UIControlStateNormal];
+        [_changeKeyBoardButton addTarget:self action:@selector(tapChangeKeyBoardButton) forControlEvents:UIControlEventTouchUpInside];
+        [_ToolBarView addSubview:self.changeKeyBoardButton];
+        
     }
     return _ToolBarView;
+}
+- (void)tapChangeKeyBoardButton{
+    NSLog(@"弹出表情");
+}
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [[XMPPManager defaultManager]sendMessage:_tf.text toUser:self.chatJID];
+    _tf.text=@"";
+    [self tableViewScrollToBottom];
+    return YES;
 }
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, IMScreenWidth, IMScreenHeight-64-50) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, IMScreenWidth, IMScreenHeight-50) style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.backgroundColor=BGCOLOR;
@@ -144,11 +158,6 @@
 }
 
 
-- (void)btnClick{
-    [[XMPPManager defaultManager]sendMessage:_tf.text toUser:self.chatJID];
-    _tf.text=@"";
-    [self tableViewScrollToBottom];
-}
 
 - (void)keyboardWillSHow:(NSNotification *)notification
 {
@@ -158,22 +167,10 @@
     
     [UIView animateWithDuration:duration.doubleValue animations:^{
         _ToolBarView.transform = CGAffineTransformMakeTranslation(0, -size.height);
-        if (self.chatHistory.count>=6) {
-            if (self.chatHistory.count>=9) {
-                 _tableView.transform = CGAffineTransformMakeTranslation(0, -size.height);
-            }else{
-                 _tableView.transform = CGAffineTransformMakeTranslation(0, -size.height+(9-self.chatHistory.count)*70);
-            }
-            
-            _isup=1;
-            
-        }else{
-            CGRect rect = _tableView.frame;
-            rect.size.height = IMScreenHeight-50-size.height-64;
-            _tableView.frame = rect;
-            [self tableViewScrollToBottom];
-        }
-       
+        CGRect rect = _tableView.frame;
+        rect.size.height = IMScreenHeight-50-size.height;
+        _tableView.frame = rect;
+        [self tableViewScrollToBottom];
     }];
 }
 
@@ -184,14 +181,9 @@
     
     [UIView animateWithDuration:duration.doubleValue animations:^{
         _ToolBarView.transform = CGAffineTransformIdentity;
-        if (_isup) {
-            _tableView.transform = CGAffineTransformIdentity;
-        }else{
-            CGRect rect = _tableView.frame;
-            rect.size.height = IMScreenHeight-50-64;
-            _tableView.frame = rect;
-            
-        }
+        CGRect rect = _tableView.frame;
+        rect.size.height = IMScreenHeight-50;
+        _tableView.frame = rect;
     }];
 }
 

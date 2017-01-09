@@ -38,7 +38,7 @@
     //背景图
     [self.view setBackgroundImage:[UIImage imageNamed:@"BG"]];
     
-    CGPoint topCenter = CGPointMake([UIScreen mainScreen].bounds.size.width / 2.0, 130.0/568*IMScreenHeight);
+    CGPoint topCenter = CGPointMake([UIScreen mainScreen].bounds.size.width / 2.0, 90.0/568*IMScreenHeight);
     CGFloat deltaY = 51/568.0*IMScreenHeight;
     CGRect inputBounds =  CGRectMake(0.0, 0.0, 290.0/320.0*IMScreenWidth, 42.0/568*IMScreenHeight);
     self.topCenterPoint = topCenter;
