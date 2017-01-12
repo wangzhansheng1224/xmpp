@@ -31,7 +31,7 @@
     [self creatUI];
     _usrNameInputView.textField.text=@"test001";
     _passwordInputView.textField.text=@"1";
-    _fuwuqiInputView.textField.text=KXMPP_DOMIN;
+    _fuwuqiInputView.textField.text=kXMPP_DOMAIN;
 }
 
 - (void)creatUI{

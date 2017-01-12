@@ -10,8 +10,9 @@
 #import "XMPPMessageArchivingCoreDataStorage.h"//消息存储
 #import "XMPPAutoPing.h"//自动连接
 #import "XMPPRosterMemoryStorage.h"  //单聊花名册存储
-#import "XMPPRoomCoreDataStorage.h"  //群聊花名册存储
 
+#import "XMPPRoomHybridStorage.h"
+#import "XMPPRoomMemoryStorage.h"
 typedef enum{
     ConnectServerPurposeLogin,    //登录
     ConnectServerPurposeRegister   //注册
@@ -31,9 +32,8 @@ typedef enum{
 @property(nonatomic, strong) XMPPRoster * xmppRoster;//单聊花名册
 @property(nonatomic, strong) XMPPMessageArchivingCoreDataStorage * xmppMessageArchivingCoreDataStorage;//消息存储
 @property(nonatomic, strong) XMPPMessageArchiving * xmppMessageArchiving;//消息模块
-@property(nonatomic, strong) XMPPRoomCoreDataStorage * xmppRoomStorage;//群聊花名册存储
-@property(nonatomic, strong) XMPPRoom * xmppRoom;//群聊
-
+@property(nonatomic, strong) XMPPRoomHybridStorage *xmppRoomStorage;
+@property(nonatomic, strong) XMPPRoom *xmppRoom;
 //用来记录用户输入的密码
 //单例方法
 +(XMPPManager *)defaultManager;
@@ -49,6 +49,10 @@ typedef enum{
 - (void)XMPPAddFriendSubscribe:(NSString *)name;
 //删除好友
 - (void)removeBuddy:(NSString *)name;
+//创建聊天室
+- (void)createRoom;
+//加入聊天室
+- (void)joinRoomwithJID:(XMPPJID *)roomjid;
 
 @end
 

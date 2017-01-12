@@ -22,6 +22,7 @@
 		D212EFA81E150CD40081AD2A /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D212EFA51E150CD40081AD2A /* MBProgressHUD.bundle */; };
 		D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */; };
 		D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFBA1E151A870081AD2A /* NavViewController.m */; };
+		D247C6041E2479C3003F78D7 /* GrpChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D247C6031E2479C3003F78D7 /* GrpChatViewController.m */; };
 		D275A1B11E1B512B00415FBC /* XMPPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B01E1B512B00415FBC /* XMPPManager.m */; };
 		D275A1B71E1CDAA900415FBC /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B61E1CDAA900415FBC /* ChatViewController.m */; };
 		D275A1BA1E1CEB9E00415FBC /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B91E1CEB9E00415FBC /* AddViewController.m */; };
@@ -83,6 +84,8 @@
 		D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+PPCategory.m"; path = "../UIView+PPCategory.m"; sourceTree = "<group>"; };
 		D212EFB91E151A870081AD2A /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
 		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
+		D247C6021E2479C3003F78D7 /* GrpChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrpChatViewController.h; sourceTree = "<group>"; };
+		D247C6031E2479C3003F78D7 /* GrpChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrpChatViewController.m; sourceTree = "<group>"; };
 		D275A1AF1E1B512B00415FBC /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		D275A1B01E1B512B00415FBC /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		D275A1B51E1CDAA900415FBC /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatViewController.h; path = ../Message/ChatViewController.h; sourceTree = "<group>"; };
@@ -155,6 +158,8 @@
 			children = (
 				D20D1DDE1E1E520D006B201B /* GroupViewController.h */,
 				D20D1DDF1E1E520D006B201B /* GroupViewController.m */,
+				D247C6021E2479C3003F78D7 /* GrpChatViewController.h */,
+				D247C6031E2479C3003F78D7 /* GrpChatViewController.m */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */,
 				D212EF901E14EE700081AD2A /* MessageViewController.m in Sources */,
 				D20D1DE31E1E53DD006B201B /* TabBarViewController.m in Sources */,
+				D247C6041E2479C3003F78D7 /* GrpChatViewController.m in Sources */,
 				D28A65881E14D693000F6204 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

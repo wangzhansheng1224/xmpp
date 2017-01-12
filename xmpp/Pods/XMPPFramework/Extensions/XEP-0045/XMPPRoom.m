@@ -765,6 +765,7 @@ enum XMPPRoomState
 		block();
 	else
 		dispatch_async(moduleQueue, block);
+    
 }
 
 - (void)handleDestroyRoomResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info

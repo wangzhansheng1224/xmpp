@@ -11,16 +11,20 @@
 #import "XMPP.h"
 
 
-#define kXMPP_HOST  @"10.18.21.94"
+#define kXMPP_HOST  @"10.18.20.252"
 #define kXMPP_PORT  5222
-#define KXMPP_DOMIN @"localhost"
+#define kXMPP_DOMAIN @"localhost"
 #define kXMPP_RESOURCE  @"iPhone8"
+#define kXMPP_SUBDOMAIN @"group"
 
 #define IMScreenWidth [UIScreen mainScreen].bounds.size.width
 #define IMScreenHeight [UIScreen mainScreen].bounds.size.height
 
 #define kXMPP_MESSAGE_CHANGE @"kXMPP_MESSAGE_CHANGE"
-#define kXMPP_ROSTER_CHANGE @"kXMPP_ROSTER_CHANGE"
+#define kXMPP_ROSTER_CHANGE  @"kXMPP_ROSTER_CHANGE"
+#define kXMPP_GET_GROUPS     @"kXMPP_GET_GROUPS"
+#define kXMPP_CHANGE_GROUPS  @"kXMPP_CHANGE_GROUPS"
+#define kXMPP_MESSAGE_GROUPS @"kXMPP_MESSAGE_GROUPS"
 
 
 

@@ -11,11 +11,13 @@
 #import "NavViewController.h"
 #import "LoginViewController.h"
 #import "TabBarViewController.h"
+#import "MBProgressHUD.h"
 
 @interface XMPPManager()<XMPPStreamDelegate,XMPPRosterDelegate>
 
 @property(nonatomic, copy) NSString *password;
 @property(nonatomic, strong) NSMutableArray *rosterArr;
+@property(nonatomic, strong) NSMutableArray *groupArr;
 @end
 @implementation XMPPManager
 
@@ -64,13 +66,6 @@
         _xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
         _xmppMessageArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:_xmppMessageArchivingCoreDataStorage dispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 9)];
         [_xmppMessageArchiving activate:self.xmppStream];
-        
-        //5组群模块
-        _xmppRoomStorage  = [XMPPRoomCoreDataStorage sharedInstance];
-        XMPPJID *roomJID = [XMPPJID jidWithString:@"一群人聊天"];
-        _xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:_xmppRoomStorage jid:roomJID];
-        [_xmppRoom activate:_xmppStream];
-        [_xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
         
     }
     return self;
@@ -148,6 +143,10 @@
 
 
 
+
+
+
+
 #pragma mark xmppStream的代理方法
 //注册成功的方法
 -(void)xmppStreamDidRegister:(XMPPStream *)sender
@@ -161,19 +160,18 @@
     NSLog(@"注册失败执行的方法");
 }
 
-
 //连接服务器失败的方法
 -(void)xmppStreamConnectDidTimeout:(XMPPStream *)sender
 {
     NSLog(@"连接服务器失败的方法，请检查网络是否正常");
 }
+
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
 {
     NSLog(@"连接服务器失败的方法，请检查网络或服务器地址是否正常");
     NSLog(@"%@",error.localizedDescription);
     
 }
-
 
 //连接服务器成功的方法
 -(void)xmppStreamDidConnect:(XMPPStream *)sender
@@ -221,6 +219,10 @@
 {
     NSLog(@"验证失败的方法,请检查你的用户名或密码是否正确,%@",error);
 }
+
+
+
+
 
 
 
@@ -299,30 +301,35 @@
 #pragma mark 添加好友
 - (void)XMPPAddFriendSubscribe:(NSString *)name{
     
-    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,KXMPP_DOMIN]];
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,kXMPP_DOMAIN]];
     [_xmppRoster subscribePresenceToUser:jid];
 }
 
 #pragma mark 删除好友
 - (void)removeBuddy:(NSString *)name{
     
-    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,KXMPP_DOMIN]];
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,kXMPP_DOMAIN]];
     [_xmppRoster removeUser:jid];
 }
 
 
 
-#pragma mark 接收消息
+
+
+
+
+#pragma mark 接收消息(单聊群聊都走这条)
+// -------- 流接收消息成功 --------
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
     NSString *messageBody = [[message elementForName:@"body"] stringValue];
     NSString *from = [[message attributeForName:@"from"] stringValue];
-    //    NSLog(@"%@\n%@",from,messageBody);
-    if (messageBody) {
-        NSRange range=[from rangeOfString:[NSString stringWithFormat:@"@%@",KXMPP_DOMIN]];
-        from=[from substringToIndex:range.location];
-        NSLog(@"%@发来消息,内容为:%@",from,messageBody);
-    }
+    NSLog(@"%@\n%@",from,messageBody);
+//    if (messageBody) {
+//        NSRange range=[from rangeOfString:[NSString stringWithFormat:@"@%@",kXMPP_DOMAIN]];
+//        from=[from substringToIndex:range.location];
+//        NSLog(@"%@发来消息,内容为:%@",from,messageBody);
+//    }
 }
 
 #pragma mark 发送消息
@@ -334,6 +341,14 @@
     [xiaoxi addBody:message];
     [self.xmppStream sendElement:xiaoxi];
 }
+
+// -------- 流发送消息成功 --------
+- (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
+{
+    NSLog(@"消息发送成功");
+}
+
+
 
 
 
@@ -376,14 +391,255 @@
     NSLog(@"- (void)xmppAutoPingDidTimeout:(XMPPAutoPing *)sender");
 }
 
-//-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID{
 
-//}
-//接收到消息
-//
-//在该方法中调用代理方法
--(void)newMessageReceived:(NSDictionary *)message{
+
+
+
+
+
+//获取聊天室列表
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+{
+    NSLog(@"iq:%@",iq);
+    // 以下两个判断其实只需要有一个就够了
+    NSString *elementID = iq.elementID;
+    if (![elementID isEqualToString:@"getMyRooms"]) {
+        return YES;
+    }
+    
+    NSArray *results = [iq elementsForXmlns:@"http://jabber.org/protocol/disco#items"];
+    if (results.count < 1) {
+        return YES;
+    }
+    
+    NSMutableArray *array = [NSMutableArray array];
+    for (DDXMLElement *element in iq.children) {
+        if ([element.name isEqualToString:@"query"]) {
+            for (DDXMLElement *item in element.children) {
+                if ([item.name isEqualToString:@"item"]) {
+                    [array addObject:item];          //array  就是你的群列表
+                    
+                }
+            }
+        }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_GET_GROUPS object:array];
+    
+    return YES;
+}
+
+#pragma mark 创建聊天室
+- (void)createRoom{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+    NSString *roomId = [NSString stringWithFormat:@"%@@%@.%@",currentTime,kXMPP_SUBDOMAIN,kXMPP_DOMAIN];
+    
+    XMPPJID *roomJID = [XMPPJID jidWithString:roomId];
+    
+    // 如果不需要使用自带的CoreData存储，则可以使用这个。
+    //    XMPPRoomMemoryStorage *xmppRoomStorage = [[XMPPRoomMemoryStorage alloc] init];
+    
+    // 如果使用自带的CoreData存储，可以自己创建一个继承自XMPPCoreDataStorage，并且实现了XMPPRoomStorage协议的类
+    // XMPPRoomHybridStorage在类注释中，写了这只是一个实现的示例，不太建议直接使用这个。
+    _xmppRoomStorage = [XMPPRoomHybridStorage sharedInstance];
+    
+    XMPPRoom *xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:_xmppRoomStorage jid:roomJID dispatchQueue:dispatch_get_main_queue()];
+    
+    [xmppRoom activate:_xmppStream];
+    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
+    [xmppRoom joinRoomUsingNickname:@"test001" history:nil password:nil];
+}
+
+- (void)joinRoomwithJID:(XMPPJID *)roomjid{
+    _xmppRoomStorage = [XMPPRoomHybridStorage sharedInstance];
+    
+    _xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:_xmppRoomStorage jid:roomjid dispatchQueue:dispatch_get_main_queue()];
+    
+    [_xmppRoom activate:[XMPPManager defaultManager].xmppStream];
+    [_xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
+    [_xmppRoom joinRoomUsingNickname:@"test001" history:nil password:nil];
+}
+
+#pragma mark -  XMPPRoomDelegate
+- (void)xmppRoomDidCreate:(XMPPRoom *)sender
+{
+    NSLog(@"房间创建成功");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSString *message = [NSString stringWithFormat:@"群<%@>已创建完成",sender.roomJID.user];
+        
+        MBProgressHUD *hdView = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+        hdView.labelText=message;
+        hdView.mode=MBProgressHUDModeText;
+        [hdView show:YES];
+        [hdView hide:YES afterDelay:0.5];
+        
+    });
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_CHANGE_GROUPS object:nil];
+}
+
+- (void)xmppRoomDidJoin:(XMPPRoom *)sender
+{
+    NSLog(@"加入房间成功");
+    
+    [self configNewRoom:sender];
+    
+    /* 配置房间 */
+    [sender configureRoomUsingOptions:nil];
+    /* 查询房间配置 */
+    [sender fetchConfigurationForm];
+    
+    /* 邀请人到房间 */
+    
+    /**
+     *  参数1: 邀请对象的 jid
+     *  参数2: 邀请信息
+     */
+//    [sender inviteUser:[XMPPJID jidWithUser:@"test002" domain:kXMPP_DOMAIN resource:nil] withMessage:@"今天晚上放学别走"];
+//    
+//    [sender inviteUser:[XMPPJID jidWithUser:@"test003" domain:kXMPP_DOMAIN resource:nil] withMessage:@"今晚放学别走"];
+    
+    
+    //    [sender fetchConfigurationForm];
+    //    [sender fetchBanList];
+    //    [sender fetchMembersList];
+    //    [sender fetchModeratorsList];
+}
+
+- (void)xmppRoomDidLeave:(XMPPRoom *)sender{
+    NSLog(@"离开了聊天室");
+}
+
+- (void)configNewRoom:(XMPPRoom *)xmppRoom{
+    NSXMLElement *x = [NSXMLElement elementWithName:@"x"xmlns:@"jabber:x:data"];
+    NSXMLElement *p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var"stringValue:@"muc#roomconfig_persistentroom"];//永久房间
+    [p addChild:[NSXMLElement elementWithName:@"value"stringValue:@"1"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var"stringValue:@"muc#roomconfig_maxusers"];//最大用户
+    [p addChild:[NSXMLElement elementWithName:@"value"stringValue:@"10000"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var"stringValue:@"muc#roomconfig_changesubject"];//允许改变主题
+    [p addChild:[NSXMLElement elementWithName:@"value"stringValue:@"1"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var"stringValue:@"muc#roomconfig_publicroom"];//公共房间
+    [p addChild:[NSXMLElement elementWithName:@"value"stringValue:@"0"]];
+    [x addChild:p];
+    
+    p = [NSXMLElement elementWithName:@"field" ];
+    [p addAttributeWithName:@"var"stringValue:@"muc#roomconfig_allowinvites"];//允许邀请
+    [p addChild:[NSXMLElement elementWithName:@"value"stringValue:@"1"]];
+    [x addChild:p];
+    
+    [xmppRoom configureRoomUsingOptions:x];
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender didFetchConfigurationForm:(NSXMLElement *)configForm
+{
+    NSLog(@"configForm:%@",configForm);
+}
+
+// 收到禁止名单列表
+- (void)xmppRoom:(XMPPRoom *)sender didFetchBanList:(NSArray *)items
+{
+    NSLog(@"%s",__func__);
+}
+
+// 收到成员名单列表
+- (void)xmppRoom:(XMPPRoom *)sender didFetchMembersList:(NSArray *)items
+{
+    NSLog(@"%s",__func__);
+}
+
+// 收到主持人名单列表
+- (void)xmppRoom:(XMPPRoom *)sender didFetchModeratorsList:(NSArray *)items
+{
+    NSLog(@"%s",__func__);
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender didNotFetchBanList:(XMPPIQ *)iqError
+{
+    NSLog(@"%s",__func__);
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender didNotFetchMembersList:(XMPPIQ *)iqError
+{
+    NSLog(@"%s",__func__);
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender didNotFetchModeratorsList:(XMPPIQ *)iqError
+{
+    NSLog(@"%s",__func__);
+}
+
+-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID{
+    NSLog(@"群发言了。。。。");
+    
+    NSString *type = [[message attributeForName:@"type"] stringValue];
+    if ([type isEqualToString:@"groupchat"]) {
+        NSString *msg = [[message elementForName:@"body"] stringValue];
+        //        NSString *timexx = [[timex attributeForName:@"stamp"] stringValue];
+        NSString *from = [[message attributeForName:@"from"] stringValue];
+        NSString *to = [[message attributeForName:@"to"] stringValue];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:msg forKey:@"body"];
+        [dict setObject:from forKey:@"from"];
+        [dict setObject:to forKey:@"to"];
+        
+        [self.groupArr addObject:dict];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kXMPP_MESSAGE_GROUPS object:self.groupArr];
     
 }
+
+//发送群消息
+- (void)sendPress:(UIButton *)sender {
+    //本地输入框中的信息
+//    NSString *message = self.sendtextfield.text;
+//    self.sendtextfield.text = @"";
+//    [self.sendtextfield resignFirstResponder];
+//    
+//    if (message.length > 0){
+//        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+//        [body setStringValue:message];
+//        
+//        //生成XML消息文档
+//        NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+//        
+//        //消息类型
+//        [mes addAttributeWithName:@"type" stringValue:@"groupchat"];
+//        
+//        //发送给谁
+//        [mes addAttributeWithName:@"to" stringValue:CHATROOM];
+//        
+//        //由谁发送
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        
+//        [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@/%@",CHATROOM,[defaults stringForKey:USER]]];
+//        
+//        //组合
+//        [mes addChild:body];
+//        
+//        //发送消息
+//        [[app xmppStream] sendElement:mes];
+    
+//    }
+}
+
+- (NSMutableArray *)groupArr{
+    ArrayLazyLoad(_groupArr);
+}
+
 
 @end

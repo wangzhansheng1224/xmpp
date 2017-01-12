@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface GroupViewController : UIViewController
-
+@property (nonatomic, strong) XMPPJID *JID;
 @end
