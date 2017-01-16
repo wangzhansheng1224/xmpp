@@ -87,17 +87,29 @@
     //监听文字改变(当编辑结束时执行)
     [_usrNameInputView.textField addTarget:self action:@selector(textDidChange:) forControlEvents:UIControlEventEditingDidEnd];
     
+    
     //登录按钮
     self.loginButton = [[UIButton alloc]initWithFrame:inputBounds];
-    [self.loginButton setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+    [self.loginButton setBackgroundColor:[UIColor colorWithWhite:0.4 alpha:0.7]];
+    self.loginButton.layer.cornerRadius=5;
+    self.loginButton.layer.masksToBounds=YES;
+    self.loginButton.layer.borderColor=[UIColor darkGrayColor].CGColor;
+    self.loginButton.layer.borderWidth=1;
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
     self.loginButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _fuwuqiInputView.center.y + deltaY + 32.0);
     self.loginButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [self.loginButton addTarget:self action:@selector(loginTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.loginButton];
     
+    
+
+    //注册按钮
     self.registerButton = [[UIButton alloc]initWithFrame:inputBounds];
-    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"btn_yellow"] forState:UIControlStateNormal];
+    [self.registerButton setBackgroundColor:[UIColor colorWithWhite:0.4 alpha:0.7]];
+    self.registerButton.layer.cornerRadius=5;
+    self.registerButton.layer.masksToBounds=YES;
+    self.registerButton.layer.borderColor=[UIColor darkGrayColor].CGColor;
+    self.registerButton.layer.borderWidth=1;self.registerButton.layer.cornerRadius=5;
     [self.registerButton setTitle:@"注册" forState:UIControlStateNormal];
     self.registerButton.center = CGPointMake([UIScreen mainScreen].bounds.size.width * 0.5, _loginButton.center.y + deltaY);
     self.registerButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];

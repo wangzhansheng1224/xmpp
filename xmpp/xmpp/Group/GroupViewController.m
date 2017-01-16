@@ -127,14 +127,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     DDXMLElement *item = self.roomArr[indexPath.row];
-    XMPPJID *roomJID = [XMPPJID jidWithString:[item attributeForName:@"jid"].stringValue];
     
     GrpChatViewController *groupVC = [[GrpChatViewController alloc]init];
     groupVC.roomName=[item attributeForName:@"name"].stringValue;
     groupVC.hidesBottomBarWhenPushed=YES;
     
-    [[XMPPManager defaultManager]joinRoomwithJID:roomJID];
+    [[XMPPManager defaultManager]joinRoomwithJID:[item attributeForName:@"jid"].stringValue];
     [self.navigationController pushViewController:groupVC animated:YES];
 }
 

@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=self.chatJID.user;
+    self.automaticallyAdjustsScrollViewInsets=NO;
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.ToolBarView];
@@ -77,7 +78,7 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, IMScreenWidth, IMScreenHeight-50) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, IMScreenWidth, IMScreenHeight-50-64) style:UITableViewStylePlain];
         _tableView.delegate=self;
         _tableView.dataSource=self;
         _tableView.backgroundColor=BGCOLOR;
@@ -153,7 +154,7 @@
 {
     if (_chatHistory.count > 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_chatHistory.count-1) inSection:0];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
 }
 
@@ -168,7 +169,7 @@
     [UIView animateWithDuration:duration.doubleValue animations:^{
         _ToolBarView.transform = CGAffineTransformMakeTranslation(0, -size.height);
         CGRect rect = _tableView.frame;
-        rect.size.height = IMScreenHeight-50-size.height;
+        rect.size.height = IMScreenHeight-50-64-size.height;
         _tableView.frame = rect;
         [self tableViewScrollToBottom];
     }];

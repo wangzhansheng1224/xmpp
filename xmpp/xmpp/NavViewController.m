@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //导航栏的背景色
-    self.navigationBar.barTintColor=[UIColor orangeColor];
+    self.navigationBar.barTintColor=[UIColor colorWithWhite:0.2 alpha:1];
     
     //导航栏左右item的颜色
     self.navigationBar.tintColor=[UIColor whiteColor];

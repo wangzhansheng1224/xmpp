@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D202BC3F1E28B52C001ED113 /* GrpLeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D202BC3D1E28B52C001ED113 /* GrpLeftTableViewCell.m */; };
+		D202BC401E28B52C001ED113 /* GrpLeftTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D202BC3E1E28B52C001ED113 /* GrpLeftTableViewCell.xib */; };
 		D20D1DCC1E1DE5A9006B201B /* LeftTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DCA1E1DE5A9006B201B /* LeftTableViewCell.m */; };
 		D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */; };
 		D20D1DD11E1DE7E3006B201B /* RightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */; };
@@ -57,6 +59,9 @@
 /* Begin PBXFileReference section */
 		09549F29EBC2C0FA07C36E80 /* Pods-xmpp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xmpp.release.xcconfig"; path = "Pods/Target Support Files/Pods-xmpp/Pods-xmpp.release.xcconfig"; sourceTree = "<group>"; };
 		873D53BF11C2C56909CE5DCC /* Pods_xmpp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xmpp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D202BC3C1E28B52C001ED113 /* GrpLeftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrpLeftTableViewCell.h; sourceTree = "<group>"; };
+		D202BC3D1E28B52C001ED113 /* GrpLeftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrpLeftTableViewCell.m; sourceTree = "<group>"; };
+		D202BC3E1E28B52C001ED113 /* GrpLeftTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrpLeftTableViewCell.xib; sourceTree = "<group>"; };
 		D20D1DC91E1DE5A9006B201B /* LeftTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftTableViewCell.h; sourceTree = "<group>"; };
 		D20D1DCA1E1DE5A9006B201B /* LeftTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftTableViewCell.m; sourceTree = "<group>"; };
 		D20D1DCB1E1DE5A9006B201B /* LeftTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftTableViewCell.xib; sourceTree = "<group>"; };
@@ -160,6 +165,9 @@
 				D20D1DDF1E1E520D006B201B /* GroupViewController.m */,
 				D247C6021E2479C3003F78D7 /* GrpChatViewController.h */,
 				D247C6031E2479C3003F78D7 /* GrpChatViewController.m */,
+				D202BC3C1E28B52C001ED113 /* GrpLeftTableViewCell.h */,
+				D202BC3D1E28B52C001ED113 /* GrpLeftTableViewCell.m */,
+				D202BC3E1E28B52C001ED113 /* GrpLeftTableViewCell.xib */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -433,6 +441,7 @@
 				D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */,
 				D20D1DDB1E1E31CB006B201B /* UserTableViewCell.xib in Resources */,
 				D212EFA81E150CD40081AD2A /* MBProgressHUD.bundle in Resources */,
+				D202BC401E28B52C001ED113 /* GrpLeftTableViewCell.xib in Resources */,
 				D28A65931E14D693000F6204 /* Assets.xcassets in Resources */,
 				D28A65911E14D693000F6204 /* Main.storyboard in Resources */,
 			);
@@ -515,6 +524,7 @@
 				D212EFA71E150CD40081AD2A /* MBProgressHUD+FX.m in Sources */,
 				D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */,
 				D275A1B11E1B512B00415FBC /* XMPPManager.m in Sources */,
+				D202BC3F1E28B52C001ED113 /* GrpLeftTableViewCell.m in Sources */,
 				D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */,
 				D20D1DE01E1E520D006B201B /* GroupViewController.m in Sources */,
 				D2E75C551E162FA000B81CA2 /* ViewController.m in Sources */,

@@ -13,6 +13,7 @@
 
 #import "XMPPRoomHybridStorage.h"
 #import "XMPPRoomMemoryStorage.h"
+#import "XMPPRoomCoreDataStorage.h"
 typedef enum{
     ConnectServerPurposeLogin,    //登录
     ConnectServerPurposeRegister   //注册
@@ -32,8 +33,9 @@ typedef enum{
 @property(nonatomic, strong) XMPPRoster * xmppRoster;//单聊花名册
 @property(nonatomic, strong) XMPPMessageArchivingCoreDataStorage * xmppMessageArchivingCoreDataStorage;//消息存储
 @property(nonatomic, strong) XMPPMessageArchiving * xmppMessageArchiving;//消息模块
-@property(nonatomic, strong) XMPPRoomHybridStorage *xmppRoomStorage;
+@property(nonatomic, strong) XMPPRoomCoreDataStorage *xmppRoomStorage;
 @property(nonatomic, strong) XMPPRoom *xmppRoom;
+@property(nonatomic, copy) NSString *roomjid;
 //用来记录用户输入的密码
 //单例方法
 +(XMPPManager *)defaultManager;
@@ -52,7 +54,8 @@ typedef enum{
 //创建聊天室
 - (void)createRoom;
 //加入聊天室
-- (void)joinRoomwithJID:(XMPPJID *)roomjid;
-
+- (void)joinRoomwithJID:(NSString *)roomjid;
+//聊天室发送消息
+- (void)sendGrpMessage:(NSString *)message;
 @end
 
