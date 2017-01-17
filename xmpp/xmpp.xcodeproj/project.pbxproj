@@ -25,6 +25,8 @@
 		D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFAB1E1511DF0081AD2A /* UIView+PPCategory.m */; };
 		D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D212EFBA1E151A870081AD2A /* NavViewController.m */; };
 		D247C6041E2479C3003F78D7 /* GrpChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D247C6031E2479C3003F78D7 /* GrpChatViewController.m */; };
+		D26A33E71E2DB7C00008FF83 /* LeftImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D26A33E51E2DB7C00008FF83 /* LeftImage.m */; };
+		D26A33E81E2DB7C00008FF83 /* LeftImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = D26A33E61E2DB7C00008FF83 /* LeftImage.xib */; };
 		D275A1B11E1B512B00415FBC /* XMPPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B01E1B512B00415FBC /* XMPPManager.m */; };
 		D275A1B71E1CDAA900415FBC /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B61E1CDAA900415FBC /* ChatViewController.m */; };
 		D275A1BA1E1CEB9E00415FBC /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D275A1B91E1CEB9E00415FBC /* AddViewController.m */; };
@@ -35,6 +37,9 @@
 		D28A65A11E14D694000F6204 /* xmppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65A01E14D694000F6204 /* xmppTests.m */; };
 		D28A65AC1E14D694000F6204 /* xmppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65AB1E14D694000F6204 /* xmppUITests.m */; };
 		D28A65BB1E14DA34000F6204 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28A65BA1E14DA34000F6204 /* LoginViewController.m */; };
+		D2B763221E2CC80D0005D4E0 /* UIImage+PPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B763211E2CC80D0005D4E0 /* UIImage+PPCategory.m */; };
+		D2B763261E2CCE730005D4E0 /* RightImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B763241E2CCE730005D4E0 /* RightImage.m */; };
+		D2B763271E2CCE730005D4E0 /* RightImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2B763251E2CCE730005D4E0 /* RightImage.xib */; };
 		D2E75C551E162FA000B81CA2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2E75C541E162FA000B81CA2 /* ViewController.m */; };
 		FF1824187EE18E46EA867C5A /* Pods_xmpp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873D53BF11C2C56909CE5DCC /* Pods_xmpp.framework */; };
 /* End PBXBuildFile section */
@@ -91,6 +96,9 @@
 		D212EFBA1E151A870081AD2A /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
 		D247C6021E2479C3003F78D7 /* GrpChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrpChatViewController.h; sourceTree = "<group>"; };
 		D247C6031E2479C3003F78D7 /* GrpChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrpChatViewController.m; sourceTree = "<group>"; };
+		D26A33E41E2DB7C00008FF83 /* LeftImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftImage.h; sourceTree = "<group>"; };
+		D26A33E51E2DB7C00008FF83 /* LeftImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftImage.m; sourceTree = "<group>"; };
+		D26A33E61E2DB7C00008FF83 /* LeftImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftImage.xib; sourceTree = "<group>"; };
 		D275A1AF1E1B512B00415FBC /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		D275A1B01E1B512B00415FBC /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		D275A1B51E1CDAA900415FBC /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatViewController.h; path = ../Message/ChatViewController.h; sourceTree = "<group>"; };
@@ -112,6 +120,11 @@
 		D28A65AD1E14D694000F6204 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28A65B91E14DA34000F6204 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = xmpp/LoginViewController.h; sourceTree = SOURCE_ROOT; };
 		D28A65BA1E14DA34000F6204 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = xmpp/LoginViewController.m; sourceTree = SOURCE_ROOT; };
+		D2B763201E2CC80D0005D4E0 /* UIImage+PPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PPCategory.h"; sourceTree = "<group>"; };
+		D2B763211E2CC80D0005D4E0 /* UIImage+PPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PPCategory.m"; sourceTree = "<group>"; };
+		D2B763231E2CCE730005D4E0 /* RightImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightImage.h; sourceTree = "<group>"; };
+		D2B763241E2CCE730005D4E0 /* RightImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightImage.m; sourceTree = "<group>"; };
+		D2B763251E2CCE730005D4E0 /* RightImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightImage.xib; sourceTree = "<group>"; };
 		D2E75C531E162FA000B81CA2 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D2E75C541E162FA000B81CA2 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DABE54D1F9B62B986DF7307D /* Pods-xmpp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xmpp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xmpp/Pods-xmpp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -154,6 +167,12 @@
 				D20D1DCE1E1DE7E3006B201B /* RightTableViewCell.h */,
 				D20D1DCF1E1DE7E3006B201B /* RightTableViewCell.m */,
 				D20D1DD01E1DE7E3006B201B /* RightTableViewCell.xib */,
+				D2B763231E2CCE730005D4E0 /* RightImage.h */,
+				D2B763241E2CCE730005D4E0 /* RightImage.m */,
+				D2B763251E2CCE730005D4E0 /* RightImage.xib */,
+				D26A33E41E2DB7C00008FF83 /* LeftImage.h */,
+				D26A33E51E2DB7C00008FF83 /* LeftImage.m */,
+				D26A33E61E2DB7C00008FF83 /* LeftImage.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -175,6 +194,7 @@
 		D212EF9E1E150C840081AD2A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				D2B7631C1E2CC7470005D4E0 /* UIImageHelper */,
 				D2E75C511E162F5900B81CA2 /* UIViewHelper */,
 				D212EF9F1E150CD40081AD2A /* MBProgressHUD */,
 				D212EFA21E150CD40081AD2A /* MBProgressHuDHelper */,
@@ -274,6 +294,15 @@
 				D28A65AD1E14D694000F6204 /* Info.plist */,
 			);
 			path = xmppUITests;
+			sourceTree = "<group>";
+		};
+		D2B7631C1E2CC7470005D4E0 /* UIImageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				D2B763201E2CC80D0005D4E0 /* UIImage+PPCategory.h */,
+				D2B763211E2CC80D0005D4E0 /* UIImage+PPCategory.m */,
+			);
+			path = UIImageHelper;
 			sourceTree = "<group>";
 		};
 		D2E75C501E162F2100B81CA2 /* Login */ = {
@@ -437,6 +466,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2B763271E2CCE730005D4E0 /* RightImage.xib in Resources */,
+				D26A33E81E2DB7C00008FF83 /* LeftImage.xib in Resources */,
 				D20D1DD21E1DE7E3006B201B /* RightTableViewCell.xib in Resources */,
 				D20D1DCD1E1DE5A9006B201B /* LeftTableViewCell.xib in Resources */,
 				D20D1DDB1E1E31CB006B201B /* UserTableViewCell.xib in Resources */,
@@ -517,10 +548,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D20D1DDA1E1E31CB006B201B /* UserTableViewCell.m in Sources */,
+				D2B763221E2CC80D0005D4E0 /* UIImage+PPCategory.m in Sources */,
 				D20D1DCC1E1DE5A9006B201B /* LeftTableViewCell.m in Sources */,
 				D212EFAC1E1511DF0081AD2A /* UIView+PPCategory.m in Sources */,
+				D2B763261E2CCE730005D4E0 /* RightImage.m in Sources */,
 				D212EFBB1E151A870081AD2A /* NavViewController.m in Sources */,
 				D275A1B71E1CDAA900415FBC /* ChatViewController.m in Sources */,
+				D26A33E71E2DB7C00008FF83 /* LeftImage.m in Sources */,
 				D212EFA71E150CD40081AD2A /* MBProgressHUD+FX.m in Sources */,
 				D212EF9D1E150BAE0081AD2A /* GOInfoInputView.m in Sources */,
 				D275A1B11E1B512B00415FBC /* XMPPManager.m in Sources */,

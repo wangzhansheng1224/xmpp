@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XMPPMessageArchivingCoreDataStorage.h"//消息存储
 #import "XMPPAutoPing.h"//自动连接
+#import "XMPPReconnect.h"
+#import "XMPPIncomingFileTransfer.h"
+#import "XMPPMessageArchivingCoreDataStorage.h"//消息存储
 #import "XMPPRosterMemoryStorage.h"  //单聊花名册存储
 
 #import "XMPPRoomHybridStorage.h"
@@ -25,17 +27,19 @@ typedef enum{
 @end
 
 @interface XMPPManager : NSObject
-@property(nonatomic,weak)id<XMPPManagerDelegate>delegate;
-@property(nonatomic)ConnectServerPurpose connectServerPurposeType;//用来标记连接服务器目的的属性
-@property(nonatomic, strong) XMPPStream * xmppStream;
-@property(nonatomic, strong) XMPPAutoPing * xmppAutoPing;
-@property(nonatomic, strong) XMPPRosterMemoryStorage *xmppRosterMemoryStorage;//单聊花名册存储
-@property(nonatomic, strong) XMPPRoster * xmppRoster;//单聊花名册
-@property(nonatomic, strong) XMPPMessageArchivingCoreDataStorage * xmppMessageArchivingCoreDataStorage;//消息存储
-@property(nonatomic, strong) XMPPMessageArchiving * xmppMessageArchiving;//消息模块
-@property(nonatomic, strong) XMPPRoomCoreDataStorage *xmppRoomStorage;
-@property(nonatomic, strong) XMPPRoom *xmppRoom;
-@property(nonatomic, copy) NSString *roomjid;
+@property (nonatomic,weak)id<XMPPManagerDelegate>delegate;
+@property (nonatomic)ConnectServerPurpose connectServerPurposeType;//用来标记连接服务器目的的属性
+@property (nonatomic, strong) XMPPStream * xmppStream;
+@property (nonatomic, strong) XMPPAutoPing * xmppAutoPing;
+@property (nonatomic, strong) XMPPReconnect *xmppReconnect;
+@property (nonatomic, strong) XMPPIncomingFileTransfer *xmppIncomingFileTransfer;
+@property (nonatomic, strong) XMPPRosterMemoryStorage *xmppRosterMemoryStorage;//单聊花名册存储
+@property (nonatomic, strong) XMPPRoster * xmppRoster;//单聊花名册
+@property (nonatomic, strong) XMPPMessageArchivingCoreDataStorage * xmppMessageArchivingCoreDataStorage;//消息存储
+@property (nonatomic, strong) XMPPMessageArchiving * xmppMessageArchiving;//消息模块
+@property (nonatomic, strong) XMPPRoomCoreDataStorage *xmppRoomStorage;
+@property (nonatomic, strong) XMPPRoom *xmppRoom;
+@property (nonatomic, copy) NSString *roomjid;
 //用来记录用户输入的密码
 //单例方法
 +(XMPPManager *)defaultManager;
@@ -47,6 +51,8 @@ typedef enum{
 -(void)logout;
 //发送消息
 - (void)sendMessage:(NSString *)message toUser:(XMPPJID *)user;
+//发送图片
+- (void)sendMessageWithData:(NSData *)data bodyName:(NSString *)name toUser:(XMPPJID *) user;
 //添加好友
 - (void)XMPPAddFriendSubscribe:(NSString *)name;
 //删除好友

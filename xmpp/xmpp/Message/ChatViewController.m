@@ -10,11 +10,15 @@
 #import "XMPPManager.h"
 #import "LeftTableViewCell.h"
 #import "RightTableViewCell.h"
+#import "UIImage+PPCategory.h"
+#import "RightImage.h"
+#import "LeftImage.h"
 
-@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *ToolBarView;
 @property (nonatomic, strong) UITextField *tf;
+@property (nonatomic, strong) UIImagePickerController *picker;
 //切换键盘
 @property (nonatomic, strong) UIButton *changeKeyBoardButton;
 /** 聊天记录*/
@@ -65,8 +69,87 @@
     return _ToolBarView;
 }
 - (void)tapChangeKeyBoardButton{
-    NSLog(@"弹出表情");
+    NSLog(@"发送图片");
+    [self sendImage];
 }
+
+- (void)sendImage {
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    
+    picker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+//    picker.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    picker.allowsEditing =YES;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+
+    UIImage *imageNew = info[UIImagePickerControllerOriginalImage];
+//    imageNew=[imageNew scaleImageWithWidth:200];
+    //设置image的尺寸
+//    CGSize imagesize = imageNew.size;
+//    imagesize.width =100;
+//    imagesize.height =100*imageNew.size.height/imageNew.size.width;
+//    //对图片大小进行压缩--
+//    imageNew = [self imageWithImage:imageNew scaledToSize:imagesize];
+    NSData *imageData=UIImageJPEGRepresentation(imageNew, 0.01);
+//    NSData *imageData = [self imageData:imageNew];
+    
+    
+    [[XMPPManager defaultManager]sendMessageWithData:imageData bodyName:@"[图片]" toUser:_chatJID];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+/** 把图片缩小到指定的宽度范围内为止 */
+-(NSData *)imageData:(UIImage *)myimage
+
+{
+    
+    NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
+    
+    if (data.length>100*1024) {
+        
+        if (data.length>1024*1024) {//1M以及以上
+            
+            data=UIImageJPEGRepresentation(myimage, 0.1);
+            
+        }else if (data.length>512*1024) {//0.5M-1M
+            
+            data=UIImageJPEGRepresentation(myimage, 0.5);
+            
+        }else if (data.length>200*1024) {//0.25M-0.5M
+            
+            data=UIImageJPEGRepresentation(myimage, 0.9);
+            
+        }
+        
+    }
+    
+    return data;
+    
+}
+
+//对图片尺寸进行压缩--
+-(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    // Create a graphics image context
+    UIGraphicsBeginImageContext(newSize);
+    
+    // Tell the old image to draw in this new context, with the desired
+    // new size
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Get the new image from the context
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the context
+    UIGraphicsEndImageContext();
+    
+    // Return the new image.
+    return newImage;
+}
+
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -87,6 +170,8 @@
         _tableView.tableFooterView=[[UIView alloc]init];
         [_tableView registerNib:[UINib nibWithNibName:@"LeftTableViewCell" bundle:nil] forCellReuseIdentifier:@"left"];
         [_tableView registerNib:[UINib nibWithNibName:@"RightTableViewCell" bundle:nil] forCellReuseIdentifier:@"right"];
+        [_tableView registerNib:[UINib nibWithNibName:@"RightImage" bundle:nil] forCellReuseIdentifier:@"rightImage"];
+        [_tableView registerNib:[UINib nibWithNibName:@"LeftImage" bundle:nil] forCellReuseIdentifier:@"leftImage"];
         //点击隐藏输入框
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyBoard)];
         [_tableView addGestureRecognizer:tapGesture];
@@ -108,22 +193,88 @@
     XMPPMessageArchiving_Message_CoreDataObject *message = self.chatHistory[indexPath.row];
     NSString *identifier = message.isOutgoing?@"right":@"left";
     if ([identifier isEqualToString:@"right"]) {
-        RightTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"right" forIndexPath:indexPath];
-        cell.RightLabel.text=message.body;
-        CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
-        cell.MessageRightWidth.constant=titleSize.width+25;
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        return cell;
+        
+        if ([message.body isEqualToString:@"[图片]"]) {
+            RightImage *cell = [tableView dequeueReusableCellWithIdentifier:@"rightImage" forIndexPath:indexPath];
+            XMPPMessage *msg = message.message;
+            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
+            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+            cell.imageV.image=receiveImage;
+            if (receiveImage.size.height>receiveImage.size.width) {
+                cell.imageHeight.constant=200;
+                cell.imageWidth.constant=200*receiveImage.size.width/receiveImage.size.height;
+            }else{
+                cell.imageWidth.constant=200;
+                cell.imageHeight.constant=200*receiveImage.size.height/receiveImage.size.width;
+            }
+            cell.imageV.layer.cornerRadius=5;
+            cell.imageV.layer.masksToBounds=YES;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+            
+        }else{
+            RightTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"right" forIndexPath:indexPath];
+            cell.RightLabel.text=message.body;
+            CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
+            cell.MessageRightWidth.constant=titleSize.width+25;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+        }
+        
+    
+        
     }else{
-        LeftTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"left" forIndexPath:indexPath];
-        cell.LeftLabel.text=message.body;
-        CGSize titleSize = [message.body sizeWithFont:cell.LeftLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
-        cell.LeftMessageWidth.constant=titleSize.width+25;
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        return cell;
+        if ([message.body isEqualToString:@"[图片]"]) {
+            LeftImage *cell = [tableView dequeueReusableCellWithIdentifier:@"leftImage" forIndexPath:indexPath];
+            XMPPMessage *msg = message.message;
+            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
+            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+            cell.imageV.image=receiveImage;
+            if (receiveImage.size.height>receiveImage.size.width) {
+                cell.imageHeight.constant=200;
+                cell.imageWidth.constant=200*receiveImage.size.width/receiveImage.size.height;
+            }else{
+                cell.imageWidth.constant=200;
+                cell.imageHeight.constant=200*receiveImage.size.height/receiveImage.size.width;
+            }
+            cell.imageV.layer.cornerRadius=5;
+            cell.imageV.layer.masksToBounds=YES;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+        }else{
+            LeftTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"left" forIndexPath:indexPath];
+            cell.LeftLabel.text=message.body;
+            CGSize titleSize = [message.body sizeWithFont:cell.LeftLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
+            cell.LeftMessageWidth.constant=titleSize.width+25;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+        }
+        
     }
     
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    XMPPMessageArchiving_Message_CoreDataObject *message = self.chatHistory[indexPath.row];
+    if ([message.body isEqualToString:@"[图片]"]){
+        XMPPMessage *msg = message.message;
+        NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
+        NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+        UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+        if (receiveImage.size.height>receiveImage.size.width) {
+            return 200+20;
+        }else{
+            return 200*receiveImage.size.height/receiveImage.size.width+20;
+        }
+        
+        
+    }else{
+        return 70;
+    }
+}
+
 - (void)getChatHistory
 {
     XMPPMessageArchivingCoreDataStorage *storage = [XMPPManager defaultManager].xmppMessageArchivingCoreDataStorage;
@@ -183,7 +334,7 @@
     [UIView animateWithDuration:duration.doubleValue animations:^{
         _ToolBarView.transform = CGAffineTransformIdentity;
         CGRect rect = _tableView.frame;
-        rect.size.height = IMScreenHeight-50;
+        rect.size.height = IMScreenHeight-50-64;
         _tableView.frame = rect;
     }];
 }

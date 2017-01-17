@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 
 @interface XMPPManager()<XMPPStreamDelegate,XMPPRosterDelegate>
-
+@property(nonatomic, copy) NSString *username;
 @property(nonatomic, copy) NSString *password;
 @property(nonatomic, strong) NSMutableArray *rosterArr;
 @end
@@ -40,11 +40,29 @@
         //初始化xmppStream，登录和注册的时候都会用到它
         self.xmppStream = [[XMPPStream alloc]init];
         self.xmppStream.hostName=kXMPP_HOST;
-//        self.xmppStream.hostPort=kXMPP_PORT;
-        //设置代理
+        self.xmppStream.hostPort=kXMPP_PORT;
+         //为什么是addDelegate? 因为xmppFramework 大量使用了多播代理multicast-delegate ,代理一般是1对1的，但是这个多播代理是一对多得，而且可以在任意时候添加或者删除
         [self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
         
         
+//        //添加功能模块
+//        //1.autoPing 发送的时一个stream:ping 对方如果想表示自己是活跃的，应该返回一个pong
+//        _xmppAutoPing = [[XMPPAutoPing alloc] init];
+//        //所有的Module模块，都要激活active
+//        [_xmppAutoPing activate:self.xmppStream];
+//        
+//        //autoPing由于它会定时发送ping,要求对方返回pong,因此这个时间我们需要设置
+//        [_xmppAutoPing setPingInterval:1000];
+//        //不仅仅是服务器来得响应;如果是普通的用户，一样会响应
+//        [_xmppAutoPing setRespondsToQueries:YES];
+//        //这个过程是C---->S  ;观察 S--->C(需要在服务器设置）
+//        
+//        
+//        
+        //2.autoReconnect 自动重连，当我们被断开了，自动重新连接上去，并且将上一次的信息自动加上去
+        _xmppReconnect = [[XMPPReconnect alloc] init];
+        [_xmppReconnect activate:self.xmppStream];
+        [_xmppReconnect setAutoReconnect:YES];
         
         // 3.好友模块 支持我们管理、同步、申请、删除好友
         _xmppRosterMemoryStorage = [[XMPPRosterMemoryStorage alloc] init];
@@ -65,6 +83,13 @@
         _xmppMessageArchiving = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:_xmppMessageArchivingCoreDataStorage dispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 9)];
         [_xmppMessageArchiving activate:self.xmppStream];
         
+        
+        //5、文件接收
+//        _xmppIncomingFileTransfer = [[XMPPIncomingFileTransfer alloc] initWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)];
+//        [_xmppIncomingFileTransfer activate:self.xmppStream];
+//        [_xmppIncomingFileTransfer addDelegate:self delegateQueue:dispatch_get_main_queue()];
+//        [_xmppIncomingFileTransfer setAutoAcceptFileTransfers:YES];
+        
     }
     return self;
 }
@@ -77,6 +102,7 @@
     self.connectServerPurposeType = ConnectServerPurposeLogin;
     //这里记录用户输入的密码，在登录（注册）的方法里面使用
     self.password = password;
+    self.username = userName;
     /**
      *  1.初始化一个xmppStream
      2.连接服务器（成功或者失败）
@@ -192,6 +218,11 @@
 -(void)xmppStreamDidAuthenticate:(XMPPStream *)sender
 {
     NSLog(@"验证成功的方法");
+    
+    NSUserDefaults *userDefult = [NSUserDefaults standardUserDefaults];
+    [userDefult setObject:_username forKey:@"username"];
+    [userDefult setObject:_password forKey:@"password"];
+    
     /**
      *  unavailable 离线
      available  上线
@@ -345,7 +376,25 @@
     NSLog(@"消息发送成功");
 }
 
-
+/** 发送二进制文件 */
+- (void)sendMessageWithData:(NSData *)data bodyName:(NSString *)name toUser:(XMPPJID *) user{
+    
+    XMPPMessage *message = [XMPPMessage messageWithType:@"chat" to:user];
+    
+    [message addBody:name];
+    
+    // 转换成base64的编码
+    NSString *base64str = [data base64EncodedStringWithOptions:0];
+    
+    // 设置节点内容
+    XMPPElement *attachment = [XMPPElement elementWithName:@"attachment" stringValue:base64str];
+    
+    // 包含子节点
+    [message addChild:attachment];
+    
+    // 发送消息
+    [_xmppStream sendElement:message];
+}
 
 
 
@@ -635,10 +684,11 @@
         //发送给谁
         [mes addAttributeWithName:@"to" stringValue:_roomjid];
         
-        //由谁发送
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *userDefult = [NSUserDefaults standardUserDefaults];
         
-        [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@/%@",_roomjid,@"test001"]];
+        NSString *userName = [userDefult objectForKey:@"username"];
+        
+        [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@/%@",_roomjid,userName]];
         
         //组合
         [mes addChild:body];

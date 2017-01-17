@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="404" height="67"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="404" height="66.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="404" height="66"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lufei" translatesAutoresizingMaskIntoConstraints="NO" id="XZ0-jj-WIJ">
@@ -32,7 +32,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我发送的消息" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRv-uD-7ev">
-                        <rect key="frame" x="10" y="10" width="312" height="46.5"/>
+                        <rect key="frame" x="15" y="10" width="307" height="46.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                     <constraint firstItem="XZ0-jj-WIJ" firstAttribute="leading" secondItem="zRv-uD-7ev" secondAttribute="trailing" constant="22" id="AgY-L5-nOM"/>
                     <constraint firstAttribute="trailing" secondItem="XZ0-jj-WIJ" secondAttribute="trailing" constant="10" id="SSr-4A-Xzr"/>
                     <constraint firstItem="XZ0-jj-WIJ" firstAttribute="leading" secondItem="Mj9-h5-kbr" secondAttribute="trailing" constant="10" id="dNi-pY-84D"/>
-                    <constraint firstItem="zRv-uD-7ev" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="qsr-u7-zUM"/>
+                    <constraint firstItem="zRv-uD-7ev" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="qsr-u7-zUM"/>
                     <constraint firstItem="Mj9-h5-kbr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="ug4-L9-ZsE"/>
                     <constraint firstAttribute="bottom" secondItem="Mj9-h5-kbr" secondAttribute="bottom" constant="10" id="us4-2M-jyB"/>
                     <constraint firstAttribute="bottom" secondItem="zRv-uD-7ev" secondAttribute="bottom" constant="10" id="yHn-YF-cHN"/>
