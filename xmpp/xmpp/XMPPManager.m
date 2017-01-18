@@ -387,7 +387,7 @@
     NSString *base64str = [data base64EncodedStringWithOptions:0];
     
     // 设置节点内容
-    XMPPElement *attachment = [XMPPElement elementWithName:@"attachment" stringValue:base64str];
+    XMPPElement *attachment = [XMPPElement elementWithName:@"attachment" stringValue:@"http://172.20.96.221:9910/custompics/fc6907247e4065123e6b33b081a94cb8.jpg"];
     
     // 包含子节点
     [message addChild:attachment];
