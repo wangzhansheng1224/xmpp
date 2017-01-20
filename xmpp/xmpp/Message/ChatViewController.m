@@ -13,16 +13,23 @@
 #import "UIImage+PPCategory.h"
 #import "RightImage.h"
 #import "LeftImage.h"
+#import "IMFaceView.h"
+#import "UIView+PPCategory.h"
+#import "AssembleeMsgTool.h"
 
-@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,IMFaceViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *ToolBarView;
 @property (nonatomic, strong) UITextField *tf;
 @property (nonatomic, strong) UIImagePickerController *picker;
-//切换键盘
+//切换表情键盘
 @property (nonatomic, strong) UIButton *changeKeyBoardButton;
+//加号
+@property (nonatomic, strong) UIButton *addButton;
 /** 聊天记录*/
 @property (nonatomic, strong) NSMutableArray *chatHistory;
+//表情View
+@property (nonatomic, strong) IMFaceView *kbfaceView;
 @end
 
 @implementation ChatViewController
@@ -31,6 +38,7 @@
     [super viewDidLoad];
     self.title=self.chatJID.user;
     self.automaticallyAdjustsScrollViewInsets=NO;
+    self.view.backgroundColor=BGCOLOR;
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.ToolBarView];
@@ -50,23 +58,52 @@
         _ToolBarView=[[UIView alloc]initWithFrame:CGRectMake(0, IMScreenHeight-50, IMScreenWidth, 50)];
         _ToolBarView.backgroundColor=[UIColor whiteColor];
         
-        _tf=[[UITextField alloc]initWithFrame:CGRectMake(20, 10, 300, 30)];
+        _tf=[[UITextField alloc]initWithFrame:CGRectMake(20, 10, IMScreenWidth-120, 30)];
         _tf.backgroundColor=[UIColor whiteColor];
         _tf.layer.borderWidth=0.5;
-        _tf.layer.borderColor=[UIColor blackColor].CGColor;
+        _tf.layer.borderColor=[UIColor darkGrayColor].CGColor;
         _tf.layer.cornerRadius=5;
         _tf.layer.masksToBounds=YES;
+        _tf.borderStyle = UITextBorderStyleRoundedRect;
         _tf.delegate=self;
         _tf.returnKeyType = UIReturnKeySend;
         [_ToolBarView addSubview:_tf];
         
-        _changeKeyBoardButton = [[UIButton alloc] initWithFrame:CGRectMake(350, 10, 30, 30)];
+        _changeKeyBoardButton = [[UIButton alloc] initWithFrame:CGRectMake(IMScreenWidth-80, 10, 30, 30)];
         [_changeKeyBoardButton setBackgroundImage:[UIImage imageNamed:@"xiaonie_icon"] forState:UIControlStateNormal];
-        [_changeKeyBoardButton addTarget:self action:@selector(tapChangeKeyBoardButton) forControlEvents:UIControlEventTouchUpInside];
-        [_ToolBarView addSubview:self.changeKeyBoardButton];
+        [_changeKeyBoardButton addTarget:self action:@selector(poppingFaceView:) forControlEvents:UIControlEventTouchUpInside];
+        [_ToolBarView addSubview:_changeKeyBoardButton];
+        
+        
+        _addButton = [[UIButton alloc] initWithFrame:CGRectMake(IMScreenWidth-40, 10, 30, 30)];
+        [_addButton setBackgroundImage:[UIImage imageNamed:@"jia_more_icon"] forState:UIControlStateNormal];
+        [_addButton addTarget:self action:@selector(tapChangeKeyBoardButton) forControlEvents:UIControlEventTouchUpInside];
+        [_ToolBarView addSubview:_addButton];
+        
+        _kbfaceView = [[IMFaceView alloc]initWithFrame:CGRectMake(0, self.view.height, self.view.width, 190)];
+        _kbfaceView.backgroundColor = [UIColor grayColor];
+        _kbfaceView.delegate=self;
+        [self.view addSubview:_kbfaceView];
         
     }
     return _ToolBarView;
+}
+
+- (void)poppingFaceView:(UIButton *)btn{
+    [self.view endEditing:YES];
+    btn.selected=!btn.selected;
+    if (btn.selected) {
+        [UIView animateWithDuration:0.3 animations:^{
+            _kbfaceView.transform = CGAffineTransformMakeTranslation(0,-190);
+            _ToolBarView.transform = CGAffineTransformMakeTranslation(0,-190);
+        }];
+    }else{
+        [UIView animateWithDuration:0.3 animations:^{
+            _kbfaceView.transform = CGAffineTransformIdentity;
+            _ToolBarView.transform = CGAffineTransformIdentity;
+        }];
+    }
+    
 }
 - (void)tapChangeKeyBoardButton{
     NSLog(@"发送图片");
@@ -83,6 +120,7 @@
     [self presentViewController:picker animated:YES completion:nil];
 }
 
+#pragma mark pickerController代理
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 
@@ -150,13 +188,23 @@
     return newImage;
 }
 
-#pragma mark - UITextFieldDelegate
+#pragma mark - UITextField代理
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [[XMPPManager defaultManager]sendMessage:_tf.text toUser:self.chatJID];
     _tf.text=@"";
     [self tableViewScrollToBottom];
     return YES;
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+    if ([string isEqualToString:@""]) {
+        [self deleteLastCharOrFace];
+        return NO;
+    }else{
+        return YES;
+
+    }
 }
 
 - (UITableView *)tableView{
@@ -221,8 +269,6 @@
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             return cell;
         }
-        
-    
         
     }else{
         if ([message.body isEqualToString:@"[图片]"]) {
@@ -338,6 +384,83 @@
         _tableView.frame = rect;
     }];
 }
+
+#pragma mark kbfaceView代理
+- (void)faceView:(IMFaceView *)faceView addFaceStr:(NSString *)facestr{
+    _tf.text=[_tf.text stringByAppendingString:facestr];
+}
+- (void)faceViewDeleteLastFace:(IMFaceView *)faceView{
+    [self deleteLastCharOrFace];
+}
+//删除最后一个字符
+- (void)deleteLastCharOrFace{
+    NSMutableArray *array = [AssembleeMsgTool getAssembleArrayWithStr:_tf.text];
+    if(array == nil || [array count] <= 0)
+        return;
+    NSString *str = [array lastObject];
+    
+    if([AssembleeMsgTool isFaceStr:str])
+    {
+        [array removeLastObject];
+        NSString *str1 = [NSString stringWithFormat:@"%@", [array componentsJoinedByString:@""]];
+        _tf.text = str1;
+    }
+    else if ([self stringContainsEmoji:str]){
+        NSMutableString *mutStr = [NSMutableString stringWithString:str];
+        
+        [array removeLastObject];
+        NSString *str1 = [NSString stringWithFormat:@"%@%@", [array componentsJoinedByString:@""], [mutStr substringToIndex:mutStr.length - 2]];
+        _tf.text = str1;
+    }
+    else
+    {
+        NSMutableString *mutStr = [NSMutableString stringWithString:str];
+        [mutStr deleteCharactersInRange:NSMakeRange([mutStr length] - 1, 1)];
+        [array removeLastObject];
+        NSString *str1 = [NSString stringWithFormat:@"%@%@", [array componentsJoinedByString:@""], mutStr];
+        _tf.text = str1;
+    }
+
+}
+- (BOOL)stringContainsEmoji:(NSString *)string {
+    __block BOOL returnValue = NO;
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:
+     ^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+         const unichar hs = [substring characterAtIndex:0];
+         // surrogate pair
+         if (0xd800 <= hs && hs <= 0xdbff) {
+             if (substring.length > 1) {
+                 const unichar ls = [substring characterAtIndex:1];
+                 const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+                 if (0x1d000 <= uc && uc <= 0x1f77f) {
+                     returnValue = YES;
+                 }
+             }
+         } else if (substring.length > 1) {
+             const unichar ls = [substring characterAtIndex:1];
+             if (ls == 0x20e3) {
+                 returnValue = YES;
+             }
+             
+         } else {
+             // non surrogate
+             if (0x2100 <= hs && hs <= 0x27ff) {
+                 returnValue = YES;
+             } else if (0x2B05 <= hs && hs <= 0x2b07) {
+                 returnValue = YES;
+             } else if (0x2934 <= hs && hs <= 0x2935) {
+                 returnValue = YES;
+             } else if (0x3297 <= hs && hs <= 0x3299) {
+                 returnValue = YES;
+             } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50) {
+                 returnValue = YES;
+             }
+         }
+         
+     }];
+    return returnValue;
+}
+
 
 - (void)dealloc
 {
