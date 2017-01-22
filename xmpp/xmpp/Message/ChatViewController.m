@@ -16,6 +16,18 @@
 #import "IMFaceView.h"
 #import "UIView+PPCategory.h"
 #import "AssembleeMsgTool.h"
+#import "TTTAttributedLabel.h"
+#import "NSAttributedString+Attributes.h"
+#define kMsgCellLeftPading 12
+#define kMsgCellRightPading 12
+#define kMsgCellUserHeadViewWidth 35 * IMScreenWidth / 320.0
+#define kMsgCellBodyMaxWidth (IMScreenWidth-kMsgCellUserHeadViewWidth*2-kMsgCellUserBodyHeadSapce-kMsgCellLeftPading-kMsgCellRightPading)
+#define kMsgCellUserBodyHeadSapce 5.0
+//#define kMsgCellUserBodyBackGroundHeading 6.0f
+#define kMsgCellUserBodyBackGroundHeadingWL 16.0f
+#define kMsgCellUserBodyBackGroundHeadingWR 7.0f
+//#define kMsgCellUserBodyBackGroundHeadingH 10.0f
+#define kMsgCellAudioCellHeiht 35.0f
 
 @interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,IMFaceViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -30,6 +42,7 @@
 @property (nonatomic, strong) NSMutableArray *chatHistory;
 //表情View
 @property (nonatomic, strong) IMFaceView *kbfaceView;
+@property (nonatomic, strong) NSNumber *duration;
 @end
 
 @implementation ChatViewController
@@ -58,7 +71,7 @@
         _ToolBarView=[[UIView alloc]initWithFrame:CGRectMake(0, IMScreenHeight-50, IMScreenWidth, 50)];
         _ToolBarView.backgroundColor=[UIColor whiteColor];
         
-        _tf=[[UITextField alloc]initWithFrame:CGRectMake(20, 10, IMScreenWidth-120, 30)];
+        _tf=[[UITextField alloc]initWithFrame:CGRectMake(20, 10, 300, 30)];
         _tf.backgroundColor=[UIColor whiteColor];
         _tf.layer.borderWidth=0.5;
         _tf.layer.borderColor=[UIColor darkGrayColor].CGColor;
@@ -80,7 +93,7 @@
         [_addButton addTarget:self action:@selector(tapChangeKeyBoardButton) forControlEvents:UIControlEventTouchUpInside];
         [_ToolBarView addSubview:_addButton];
         
-        _kbfaceView = [[IMFaceView alloc]initWithFrame:CGRectMake(0, self.view.height, self.view.width, 190)];
+        _kbfaceView = [[IMFaceView alloc]initWithFrame:CGRectMake(0, IMScreenHeight, IMScreenWidth, 190)];
         _kbfaceView.backgroundColor = [UIColor grayColor];
         _kbfaceView.delegate=self;
         [self.view addSubview:_kbfaceView];
@@ -90,21 +103,31 @@
 }
 
 - (void)poppingFaceView:(UIButton *)btn{
+   
     [self.view endEditing:YES];
     btn.selected=!btn.selected;
     if (btn.selected) {
-        [UIView animateWithDuration:0.3 animations:^{
-            _kbfaceView.transform = CGAffineTransformMakeTranslation(0,-190);
-            _ToolBarView.transform = CGAffineTransformMakeTranslation(0,-190);
+        
+        [UIView animateWithDuration:_duration.doubleValue animations:^{
+            _kbfaceView.frame = CGRectMake(0, IMScreenHeight-190, IMScreenWidth, 190);
+            _ToolBarView.frame = CGRectMake(0, IMScreenHeight-50-190, IMScreenWidth, 50);
+            CGRect rect = _tableView.frame;
+            rect.size.height = IMScreenHeight-50-64-190;
+            _tableView.frame = rect;
+            [self tableViewScrollToBottom];
         }];
     }else{
-        [UIView animateWithDuration:0.3 animations:^{
-            _kbfaceView.transform = CGAffineTransformIdentity;
-            _ToolBarView.transform = CGAffineTransformIdentity;
+        
+        [UIView animateWithDuration:_duration.doubleValue animations:^{
+            _kbfaceView.frame = CGRectMake(0, IMScreenHeight, IMScreenWidth, 190);
+            _ToolBarView.frame = CGRectMake(0, IMScreenHeight-50, IMScreenWidth, 50);
+            CGRect rect = _tableView.frame;
+            rect.size.height = IMScreenHeight-50-64;
+            _tableView.frame = rect;
         }];
     }
-    
 }
+
 - (void)tapChangeKeyBoardButton{
     NSLog(@"发送图片");
     [self sendImage];
@@ -120,7 +143,6 @@
     [self presentViewController:picker animated:YES completion:nil];
 }
 
-#pragma mark pickerController代理
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 
@@ -140,9 +162,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 /** 把图片缩小到指定的宽度范围内为止 */
--(NSData *)imageData:(UIImage *)myimage
-
-{
+-(NSData *)imageData:(UIImage *)myimage{
     
     NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
     
@@ -191,21 +211,25 @@
 #pragma mark - UITextField代理
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self send];
+    return YES;
+}
+- (void)send{
     [[XMPPManager defaultManager]sendMessage:_tf.text toUser:self.chatJID];
     _tf.text=@"";
     [self tableViewScrollToBottom];
-    return YES;
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-
+    
     if ([string isEqualToString:@""]) {
         [self deleteLastCharOrFace];
         return NO;
     }else{
         return YES;
-
+        
     }
 }
+
 
 - (UITableView *)tableView{
     if (!_tableView) {
@@ -230,6 +254,16 @@
 
 - (void)hideKeyBoard
 {
+    [UIView animateWithDuration:_duration.doubleValue animations:^{
+        _kbfaceView.frame=CGRectMake(0, IMScreenHeight, IMScreenWidth, 190);
+        _ToolBarView.frame=CGRectMake(0, IMScreenHeight-50, IMScreenWidth, 50);
+        CGRect rect = _tableView.frame;
+        rect.size.height = IMScreenHeight-50-64;
+        _tableView.frame = rect;
+        _changeKeyBoardButton.selected=NO;
+    }];
+
+    
     [self.view endEditing:YES];
 }
 
@@ -263,12 +297,28 @@
             
         }else{
             RightTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"right" forIndexPath:indexPath];
-            cell.RightLabel.text=message.body;
-            CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
-            cell.MessageRightWidth.constant=titleSize.width+25;
+            
+            [cell.RightLabel setText:message.body];
+
+            CGSize size = [cell.RightLabel.attributedText sizeConstrainedToSize:CGSizeMake(kMsgCellBodyMaxWidth-kMsgCellUserBodyBackGroundHeadingWL-kMsgCellUserBodyBackGroundHeadingWR, CGFLOAT_MAX)];
+            
+            CGFloat maxWidth = kMsgCellBodyMaxWidth-kMsgCellUserBodyBackGroundHeadingWL-kMsgCellUserBodyBackGroundHeadingWR;
+            
+            CGFloat width = size.width;
+            
+            if (size.height > 30.0 || maxWidth - size.width < 7) {
+                width = maxWidth;
+            }
+            cell.MessageRightWidth.constant=width+kMsgCellUserBodyBackGroundHeadingWR+kMsgCellUserBodyBackGroundHeadingWL;
+
+            //只有文字的方法
+            //CGSize titleSize = [message.body sizeWithFont:cell.RightLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
+            //cell.MessageRightWidth.constant=titleSize.width+25;
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             return cell;
         }
+        
+    
         
     }else{
         if ([message.body isEqualToString:@"[图片]"]) {
@@ -291,9 +341,22 @@
             return cell;
         }else{
             LeftTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"left" forIndexPath:indexPath];
-            cell.LeftLabel.text=message.body;
-            CGSize titleSize = [message.body sizeWithFont:cell.LeftLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
-            cell.LeftMessageWidth.constant=titleSize.width+25;
+            [cell.LeftLabel setText:message.body];
+            
+            CGSize size = [cell.LeftLabel.attributedText sizeConstrainedToSize:CGSizeMake(kMsgCellBodyMaxWidth-kMsgCellUserBodyBackGroundHeadingWL-kMsgCellUserBodyBackGroundHeadingWR, CGFLOAT_MAX)];
+            
+            CGFloat maxWidth = kMsgCellBodyMaxWidth-kMsgCellUserBodyBackGroundHeadingWL-kMsgCellUserBodyBackGroundHeadingWR;
+            
+            CGFloat width = size.width;
+            
+            if (size.height > 30.0 || maxWidth - size.width < 7) {
+                width = maxWidth;
+            }
+            cell.LeftMessageWidth.constant=width+kMsgCellUserBodyBackGroundHeadingWR+kMsgCellUserBodyBackGroundHeadingWL;
+            
+            
+//            CGSize titleSize = [message.body sizeWithFont:cell.LeftLabel.font constrainedToSize:CGSizeMake(MAXFLOAT, 30)];
+//            cell.LeftMessageWidth.constant=titleSize.width+25;
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             return cell;
         }
@@ -359,12 +422,13 @@
 
 - (void)keyboardWillSHow:(NSNotification *)notification
 {
+    _changeKeyBoardButton.selected=NO;
     NSDictionary *userInfo = [notification userInfo];
     CGSize size = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    NSNumber *duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    _duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     
-    [UIView animateWithDuration:duration.doubleValue animations:^{
-        _ToolBarView.transform = CGAffineTransformMakeTranslation(0, -size.height);
+    [UIView animateWithDuration:_duration.doubleValue animations:^{
+        _ToolBarView.frame =  _ToolBarView.frame=CGRectMake(0, IMScreenHeight-50-size.height, IMScreenWidth, 50);
         CGRect rect = _tableView.frame;
         rect.size.height = IMScreenHeight-50-64-size.height;
         _tableView.frame = rect;
@@ -374,11 +438,12 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
-    NSDictionary *userInfo = [notification userInfo];
-    NSNumber *duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     
-    [UIView animateWithDuration:duration.doubleValue animations:^{
-        _ToolBarView.transform = CGAffineTransformIdentity;
+    NSDictionary *userInfo = [notification userInfo];
+    _duration = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    
+    [UIView animateWithDuration:_duration.doubleValue animations:^{
+        _ToolBarView.frame =  _ToolBarView.frame=CGRectMake(0, IMScreenHeight-50, IMScreenWidth, 50);
         CGRect rect = _tableView.frame;
         rect.size.height = IMScreenHeight-50-64;
         _tableView.frame = rect;
@@ -386,6 +451,9 @@
 }
 
 #pragma mark kbfaceView代理
+- (void)faceViewSend:(IMFaceView *)faceView{
+    [self send];
+}
 - (void)faceView:(IMFaceView *)faceView addFaceStr:(NSString *)facestr{
     _tf.text=[_tf.text stringByAppendingString:facestr];
 }
@@ -420,7 +488,7 @@
         NSString *str1 = [NSString stringWithFormat:@"%@%@", [array componentsJoinedByString:@""], mutStr];
         _tf.text = str1;
     }
-
+    
 }
 - (BOOL)stringContainsEmoji:(NSString *)string {
     __block BOOL returnValue = NO;
@@ -460,6 +528,8 @@
      }];
     return returnValue;
 }
+
+
 
 
 - (void)dealloc

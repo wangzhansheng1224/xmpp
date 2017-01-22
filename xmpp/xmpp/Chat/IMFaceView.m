@@ -8,10 +8,9 @@
 
 #import "IMFaceView.h"
 #import "UIView+PPCategory.h"
-#import "AssembleeMsgTool.h"
 //#import "UIScrollView+PPCategory.h"
 //#import "PPCore.h"
-
+#import "AssembleeMsgTool.h"
 //#import "AppDelegate.h"
 
 @implementation IMFaceView
@@ -133,13 +132,13 @@
 	}
 }
 
-//- (void)sendBtnClick:(id)sender
-//{
-//	if([self.delegate respondsToSelector:@selector(faceViewSend:)])
-//	{
-//		[self.delegate faceViewSend:self];
-//	}
-//}
+- (void)sendBtnClick:(id)sender
+{
+	if([self.delegate respondsToSelector:@selector(faceViewSend:)])
+	{
+		[self.delegate faceViewSend:self];
+	}
+}
 
 - (void)pageCtrlChanged:(id)sender
 {
@@ -150,5 +149,4 @@
 {
 	_pageCtrl.currentPage = _scrollView.contentOffset.x / (self.width - 10);
 }
-
 @end

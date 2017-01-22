@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 @protocol IMFaceViewDelegate;
 @interface IMFaceView : UIView<UIScrollViewDelegate>
+{
+	UIScrollView *_scrollView;
+	UIPageControl *_pageCtrl;
+}
 @property (nonatomic, assign) id <IMFaceViewDelegate> delegate;
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIPageControl *pageCtrl;
 @end
 
 @protocol IMFaceViewDelegate <NSObject>

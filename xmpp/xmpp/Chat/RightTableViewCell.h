@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTTAttributedLabel.h"
 
 @interface RightTableViewCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *RightLabel;
+@property (strong, nonatomic) IBOutlet TTTAttributedLabel *RightLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *MessageRightWidth;
 
 @end

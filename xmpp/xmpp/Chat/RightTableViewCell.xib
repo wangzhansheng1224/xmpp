@@ -31,7 +31,7 @@
                             <constraint firstAttribute="width" constant="300" id="UTT-Jl-Tji"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我发送的消息" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRv-uD-7ev">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我发送的消息" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRv-uD-7ev" customClass="TTTAttributedLabel">
                         <rect key="frame" x="15" y="10" width="307" height="46.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -54,7 +54,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="MessageRightWidth" destination="UTT-Jl-Tji" id="SLH-He-kay"/>
-                <outlet property="RightLabel" destination="zRv-uD-7ev" id="nLQ-Mm-QhO"/>
+                <outlet property="RightLabel" destination="zRv-uD-7ev" id="Hub-dc-Pmz"/>
             </connections>
             <point key="canvasLocation" x="36" y="142.5"/>
         </tableViewCell>

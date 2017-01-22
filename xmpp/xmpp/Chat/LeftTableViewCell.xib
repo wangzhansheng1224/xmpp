@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="396" height="69"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="396" height="68.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="396" height="68"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aisi" translatesAutoresizingMaskIntoConstraints="NO" id="9pZ-wR-R26">
@@ -31,7 +31,7 @@
                             <constraint firstAttribute="width" constant="300" id="liZ-JE-1Yg"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="对方发送的消息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkh-3f-7Xe">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="对方发送的消息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkh-3f-7Xe" customClass="TTTAttributedLabel">
                         <rect key="frame" x="82" y="10" width="304" height="48.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -53,7 +53,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="LeftLabel" destination="Mkh-3f-7Xe" id="Wy3-bO-ObB"/>
+                <outlet property="LeftLabel" destination="Mkh-3f-7Xe" id="I24-eC-yFg"/>
                 <outlet property="LeftMessageWidth" destination="liZ-JE-1Yg" id="3Cr-qm-ALm"/>
             </connections>
             <point key="canvasLocation" x="61" y="101.5"/>

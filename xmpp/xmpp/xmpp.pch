@@ -12,7 +12,7 @@
 
 
 
-#define kXMPP_HOST  @"10.18.22.65"
+#define kXMPP_HOST  @"10.18.21.137"
 #define kXMPP_PORT  5222
 #define kXMPP_DOMAIN @"localhost"
 #define kXMPP_RESOURCE  @"iPhone8"
@@ -33,6 +33,7 @@
 #define BGCOLOR [UIColor colorWithRed:243/255.0 green:243/255.0 blue:243/255.0 alpha:1]
 #define UICOLOR_RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
 #define UICOLOR_RGB(r, g, b) UICOLOR_RGBA(r, g, b, 1)
+
 
 
 
