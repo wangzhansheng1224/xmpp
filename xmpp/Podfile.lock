@@ -1,4 +1,19 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - CocoaAsyncSocket (7.5.1):
     - CocoaAsyncSocket/GCD (= 7.5.1)
   - CocoaAsyncSocket/GCD (7.5.1)
@@ -179,6 +194,7 @@ PODS:
     - XMPPFramework/XEP-0203
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
   - SDWebImage (~> 4.0.0-beta2)
   - XMPPFramework (from `https://github.com/robbiehanson/XMPPFramework.git`, branch `master`)
 
@@ -193,12 +209,13 @@ CHECKOUT OPTIONS:
     :git: https://github.com/robbiehanson/XMPPFramework.git
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   KissXML: 246c842586bb77110e04fb88e19376d96245c856
   SDWebImage: e379f33106cf8d6766f970c0ef1c3fb609c94d78
   XMPPFramework: 977eef5d00c20fe9fb19c30d84a89c2d5564252d
 
-PODFILE CHECKSUM: c2f421119456222721ae6ee1c3a183b52802c2ea
+PODFILE CHECKSUM: 80ad00d7bf2443093a2b953ebd2efc8972fecb04
 
 COCOAPODS: 1.1.1

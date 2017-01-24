@@ -52,7 +52,7 @@ typedef enum{
 //发送消息
 - (void)sendMessage:(NSString *)message toUser:(XMPPJID *)user;
 //发送图片
-- (void)sendMessageWithData:(NSData *)data bodyName:(NSString *)name toUser:(XMPPJID *) user;
+- (void)sendMessageWithUrl:(NSString *)url size:(CGSize)size bodyName:(NSString *)name toUser:(XMPPJID *) user;
 //添加好友
 - (void)XMPPAddFriendSubscribe:(NSString *)name;
 //删除好友

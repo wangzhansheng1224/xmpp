@@ -19,20 +19,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lufei" translatesAutoresizingMaskIntoConstraints="NO" id="XZ0-jj-WIJ">
-                        <rect key="frame" x="344" y="10" width="50" height="46.5"/>
+                        <rect key="frame" x="344" y="10" width="50" height="47"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="7bz-0t-uDi"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ChatRightBg" translatesAutoresizingMaskIntoConstraints="NO" id="Mj9-h5-kbr">
-                        <rect key="frame" x="34" y="10" width="300" height="46.5"/>
+                        <rect key="frame" x="34" y="10" width="300" height="47"/>
                         <rect key="contentStretch" x="0.5" y="0.0" width="0.0" height="1"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="300" id="UTT-Jl-Tji"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我发送的消息" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRv-uD-7ev" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="15" y="10" width="307" height="46.5"/>
+                        <rect key="frame" x="15" y="10" width="307" height="47"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

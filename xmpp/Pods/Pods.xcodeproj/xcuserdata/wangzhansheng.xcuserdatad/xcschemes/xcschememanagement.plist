@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CocoaAsyncSocket.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>186C50C6431D3040AAF819D4DA8B32DE</key>
+		<key>416B388906DEFAC81F0676F277AC9058</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>416B388906DEFAC81F0676F277AC9058</key>
+		<key>6E0F6E31828B7089029AF4C946ADAFE9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C95AFA11F2238E45C269F3D7F8FE99C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +62,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>94D6A5B3B1D3F22A394481E790ACF98E</key>
+		<key>90AB703FDE52AFC2B63EEEE4D406E5BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,7 +72,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DB58F50ED76B2B0BEC082365F1EEF104</key>
+		<key>CF671F7E57B92905F1CC91D036D6B4A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -18,16 +18,14 @@
 #import "AssembleeMsgTool.h"
 #import "TTTAttributedLabel.h"
 #import "NSAttributedString+Attributes.h"
+
 #define kMsgCellLeftPading 12
 #define kMsgCellRightPading 12
 #define kMsgCellUserHeadViewWidth 35 * IMScreenWidth / 320.0
 #define kMsgCellBodyMaxWidth (IMScreenWidth-kMsgCellUserHeadViewWidth*2-kMsgCellUserBodyHeadSapce-kMsgCellLeftPading-kMsgCellRightPading)
 #define kMsgCellUserBodyHeadSapce 5.0
-//#define kMsgCellUserBodyBackGroundHeading 6.0f
 #define kMsgCellUserBodyBackGroundHeadingWL 16.0f
 #define kMsgCellUserBodyBackGroundHeadingWR 7.0f
-//#define kMsgCellUserBodyBackGroundHeadingH 10.0f
-#define kMsgCellAudioCellHeiht 35.0f
 
 @interface ChatViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,IMFaceViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,6 +41,7 @@
 //表情View
 @property (nonatomic, strong) IMFaceView *kbfaceView;
 @property (nonatomic, strong) NSNumber *duration;
+@property (nonatomic, strong) UIImage *imageNew;
 @end
 
 @implementation ChatViewController
@@ -146,7 +145,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 
-    UIImage *imageNew = info[UIImagePickerControllerOriginalImage];
+    
 //    imageNew=[imageNew scaleImageWithWidth:200];
     //设置image的尺寸
 //    CGSize imagesize = imageNew.size;
@@ -154,11 +153,66 @@
 //    imagesize.height =100*imageNew.size.height/imageNew.size.width;
 //    //对图片大小进行压缩--
 //    imageNew = [self imageWithImage:imageNew scaledToSize:imagesize];
-    NSData *imageData=UIImageJPEGRepresentation(imageNew, 0.01);
-//    NSData *imageData = [self imageData:imageNew];
+//    NSData *imageData=UIImageJPEGRepresentation(imageNew, 0.01);
+
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //点击imageView 上传imageView1的image 作为用户的头像
     
     
-    [[XMPPManager defaultManager]sendMessageWithData:imageData bodyName:@"[图片]" toUser:_chatJID];
+    [manager POST:@"http://172.20.96.221:9901/fileupload/file/springUpload.htm" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+       
+        
+        
+        //        需要将上传的图片转为二进制 存入formData
+        
+        //        formData 代表消息体 封装上传的文件
+        
+        //        1.格式转换
+       
+        //        将png格式的图片 转换为二进制数据
+        _imageNew = info[UIImagePickerControllerOriginalImage];
+        NSData *imageData = [self imageData:_imageNew];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyyMMddHHmmss"];
+        NSString *currentTime = [formatter stringFromDate:[NSDate date]];
+        // jpg jpeg 图片需要压缩 方法如下 第一个参数转换的图片 第二个参数压缩系数
+        
+        //        NSData *imageData = UIImageJPEGRepresentation(image, 2.0)
+        
+        
+        //        2.封装到消息体
+        //文件取名字
+        
+        [formData appendPartWithFileData:imageData name:@"headimage" fileName:[NSString stringWithFormat:@"%@.jpg",currentTime] mimeType:@"image/jpeg"];
+        
+        /*
+         参数1：上传的二进制数据
+         参数2：表示资源的类型 告诉服务器 当前上传的是什么资源 根据后台要求来写
+         参数3：资源在服务器上对应的文件 如果没有特殊说明 随意写
+         参数4：表示资源的数据格式 参考相关的表格说明 .png -->image/png
+         */
+        
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"Request Successful, response '%@'", responseStr);
+
+        NSData *jsonData = [responseStr dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *err;
+        id abc = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                 options:NSJSONReadingMutableContainers
+                                                   error:&err];
+        [[XMPPManager defaultManager]sendMessageWithUrl:abc[@"url"] size:_imageNew.size bodyName:@"[图片]" toUser:_chatJID];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         NSLog(@"上传失败");
+    }];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 /** 把图片缩小到指定的宽度范围内为止 */
@@ -274,24 +328,30 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     XMPPMessageArchiving_Message_CoreDataObject *message = self.chatHistory[indexPath.row];
     NSString *identifier = message.isOutgoing?@"right":@"left";
+    XMPPMessage *msg = message.message;
     if ([identifier isEqualToString:@"right"]) {
         
-        if ([message.body isEqualToString:@"[图片]"]) {
+        if ([[[msg elementForName:@"body"] stringValue] isEqualToString:@"[图片]"]) {
             RightImage *cell = [tableView dequeueReusableCellWithIdentifier:@"rightImage" forIndexPath:indexPath];
-            XMPPMessage *msg = message.message;
-            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
-            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
-            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
-            cell.imageV.image=receiveImage;
-            if (receiveImage.size.height>receiveImage.size.width) {
+            NSString *url = [[msg elementForName:@"url"] stringValue];
+            NSString *frame = [[msg elementForName:@"frame"] stringValue];
+            NSArray *frameArr=[frame componentsSeparatedByString:@" "];
+            int height=[frameArr[1] intValue];
+            int width=[frameArr[0] intValue];
+//            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
+//            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+//            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+//            cell.imageV.image=receiveImage;
+            if (height>width) {
                 cell.imageHeight.constant=200;
-                cell.imageWidth.constant=200*receiveImage.size.width/receiveImage.size.height;
+                cell.imageWidth.constant=200*width/height;
             }else{
                 cell.imageWidth.constant=200;
-                cell.imageHeight.constant=200*receiveImage.size.height/receiveImage.size.width;
+                cell.imageHeight.constant=200*height/width;
             }
             cell.imageV.layer.cornerRadius=5;
             cell.imageV.layer.masksToBounds=YES;
+            [cell.imageV sd_setImageWithURL:[NSURL URLWithString:url]];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             return cell;
             
@@ -369,16 +429,19 @@
     XMPPMessageArchiving_Message_CoreDataObject *message = self.chatHistory[indexPath.row];
     if ([message.body isEqualToString:@"[图片]"]){
         XMPPMessage *msg = message.message;
-        NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
-        NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
-        UIImage *receiveImage = [[UIImage alloc]initWithData:data];
-        if (receiveImage.size.height>receiveImage.size.width) {
+        NSString *frame = [[msg elementForName:@"frame"] stringValue];
+        NSArray *frameArr=[frame componentsSeparatedByString:@" "];
+        int height=[frameArr[1] intValue];
+        int width=[frameArr[0] intValue];
+
+//        NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+//        UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+        
+        if (height>width) {
             return 200+20;
         }else{
-            return 200*receiveImage.size.height/receiveImage.size.width+20;
+            return 200*height/width+20;
         }
-        
-        
     }else{
         return 70;
     }
@@ -429,6 +492,7 @@
     
     [UIView animateWithDuration:_duration.doubleValue animations:^{
         _ToolBarView.frame =  _ToolBarView.frame=CGRectMake(0, IMScreenHeight-50-size.height, IMScreenWidth, 50);
+        _kbfaceView.frame=CGRectMake(0, IMScreenHeight, IMScreenWidth, 190);
         CGRect rect = _tableView.frame;
         rect.size.height = IMScreenHeight-50-64-size.height;
         _tableView.frame = rect;

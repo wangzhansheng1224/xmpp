@@ -377,23 +377,55 @@
 }
 
 /** 发送二进制文件 */
-- (void)sendMessageWithData:(NSData *)data bodyName:(NSString *)name toUser:(XMPPJID *) user{
+- (void)sendMessageWithUrl:(NSString *)url size:(CGSize)size bodyName:(NSString *)name toUser:(XMPPJID *)user{
     
-    XMPPMessage *message = [XMPPMessage messageWithType:@"chat" to:user];
+//    XMPPMessage *message = [XMPPMessage messageWithType:@"chat" to:user];
+//    
+//    [message addBody:name];
+//    
     
-    [message addBody:name];
     
-    // 转换成base64的编码
-    NSString *base64str = [data base64EncodedStringWithOptions:0];
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
     
-    // 设置节点内容
-    XMPPElement *attachment = [XMPPElement elementWithName:@"attachment" stringValue:base64str];
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
     
-    // 包含子节点
-    [message addChild:attachment];
+    //发送给谁
+    [mes addAttributeWithName:@"to" stringValue:@"test002@localhost"];
+    
+    NSUserDefaults *userDefult = [NSUserDefaults standardUserDefaults];
+    
+    NSString *userName = [userDefult objectForKey:@"username"];
+    
+//    [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@/%@",_roomjid,userName]];
+    
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:name];
+    [mes addChild:body];
+    
+    //下图下载地址
+    NSXMLElement *URL = [NSXMLElement elementWithName:@"url"];
+    [URL setStringValue:url];
+    [mes addChild:URL];
+    
+    //图片尺寸
+    NSXMLElement *frame = [NSXMLElement elementWithName:@"frame"];
+    [frame setStringValue:[NSString stringWithFormat:@"%f %f",size.width,size.height]];
+    [mes addChild:frame];
+
+    
+//    // 转换成base64的编码
+//    NSString *base64str = [data base64EncodedStringWithOptions:0];
+//    
+//    // 设置节点内容
+//    XMPPElement *attachment = [XMPPElement elementWithName:@"attachment" stringValue:base64str];
+//    
+//    // 包含子节点
+//    [message addChild:attachment];
     
     // 发送消息
-    [_xmppStream sendElement:message];
+    [_xmppStream sendElement:mes];
 }
 
 
