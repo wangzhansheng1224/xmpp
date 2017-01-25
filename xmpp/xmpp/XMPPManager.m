@@ -192,6 +192,16 @@
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
 {
     NSLog(@"连接服务器失败的方法，请检查网络或服务器地址是否正常");
+    if (error.code==7) {
+        UIApplication *application = [UIApplication sharedApplication];
+        application.keyWindow.rootViewController=[[LoginViewController alloc]init];
+        
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的账号已在另一个地方登陆" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:action];
+        [application.keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
     NSLog(@"%@",error.localizedDescription);
     
 }
@@ -384,7 +394,6 @@
 //    [message addBody:name];
 //    
     
-    
     //生成XML消息文档
     NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
     
@@ -392,13 +401,7 @@
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     
     //发送给谁
-    [mes addAttributeWithName:@"to" stringValue:@"test002@localhost"];
-    
-    NSUserDefaults *userDefult = [NSUserDefaults standardUserDefaults];
-    
-    NSString *userName = [userDefult objectForKey:@"username"];
-    
-//    [mes addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@/%@",_roomjid,userName]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@%@",user.user,kXMPP_DOMAIN]];
     
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
     [body setStringValue:name];
@@ -427,6 +430,8 @@
     // 发送消息
     [_xmppStream sendElement:mes];
 }
+
+
 
 
 

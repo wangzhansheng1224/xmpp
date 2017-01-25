@@ -384,19 +384,25 @@
         if ([message.body isEqualToString:@"[图片]"]) {
             LeftImage *cell = [tableView dequeueReusableCellWithIdentifier:@"leftImage" forIndexPath:indexPath];
             XMPPMessage *msg = message.message;
-            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
-            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
-            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
-            cell.imageV.image=receiveImage;
-            if (receiveImage.size.height>receiveImage.size.width) {
+            NSString *url = [[msg elementForName:@"url"] stringValue];
+            NSString *frame = [[msg elementForName:@"frame"] stringValue];
+            NSArray *frameArr=[frame componentsSeparatedByString:@" "];
+            int height=[frameArr[1] intValue];
+            int width=[frameArr[0] intValue];
+            //            NSString *base64str = [[msg elementForName:@"attachment"] stringValue];
+            //            NSData *data = [[NSData alloc]initWithBase64EncodedString:base64str options:0];
+            //            UIImage *receiveImage = [[UIImage alloc]initWithData:data];
+            //            cell.imageV.image=receiveImage;
+            if (height>width) {
                 cell.imageHeight.constant=200;
-                cell.imageWidth.constant=200*receiveImage.size.width/receiveImage.size.height;
+                cell.imageWidth.constant=200*width/height;
             }else{
                 cell.imageWidth.constant=200;
-                cell.imageHeight.constant=200*receiveImage.size.height/receiveImage.size.width;
+                cell.imageHeight.constant=200*height/width;
             }
             cell.imageV.layer.cornerRadius=5;
             cell.imageV.layer.masksToBounds=YES;
+            [cell.imageV sd_setImageWithURL:[NSURL URLWithString:url]];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
             return cell;
         }else{

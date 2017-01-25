@@ -11,6 +11,7 @@
 #import "UIView+PPCategory.h"
 #import "MBProgressHUD+FX.h"
 #import "XMPPManager.h"
+#import "MBProgressHUD.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
 @property (nonatomic, strong) GOInfoInputView *usrNameInputView;
@@ -25,6 +26,9 @@
 
 @implementation LoginViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"账号登录";

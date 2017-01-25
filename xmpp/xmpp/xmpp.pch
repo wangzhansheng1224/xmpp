@@ -12,7 +12,7 @@
 #import "AFNetworking.h"
 #import "UIImageView+WebCache.h"
 
-#define kXMPP_HOST  @"10.18.22.219"
+#define kXMPP_HOST  @"10.18.21.137"
 #define kXMPP_PORT  5222
 #define kXMPP_DOMAIN @"localhost"
 #define kXMPP_RESOURCE  @"iPhone8"
